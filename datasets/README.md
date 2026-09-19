@@ -17,5 +17,5 @@ Important:
 - Do not mix them without an explicit experiment design.
 - Raw data must not be modified, reordered, or re-encoded.
 - The current protocol_stego working dataset is kept in
-  `src/protocol_stego/dataset/` to preserve code paths.
+  `datasets/protocol_stego/`.
 - The released copy is in `releases/dataset_release_v1/`.

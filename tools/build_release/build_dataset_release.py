@@ -20,7 +20,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PROJECT_ROOT = REPO_ROOT / "src" / "protocol_stego"
-DATASET_ROOT = PROJECT_ROOT / "dataset"
+DATASET_ROOT = REPO_ROOT / "datasets" / "protocol_stego"
 DOCS_ROOT = PROJECT_ROOT / "docs"
 RELEASE_ROOT = REPO_ROOT / "releases" / "dataset_release_v1"
 

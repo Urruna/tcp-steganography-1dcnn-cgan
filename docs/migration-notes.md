@@ -100,7 +100,10 @@ both originals remain in their respective environments.
 
 - `src/crypto` and `src/protocol_stego` remain siblings so
   `core/crypto_adapter.py` can still resolve `../crypto/crypto.py`.
-- `src/protocol_stego/dataset` stays in place in phase 1.
+- The working dataset was moved from `src/protocol_stego/dataset` to
+  `datasets/protocol_stego` so code and data are clearly separated.
+  The container mount target remains `/work/protocol_stego/dataset`, so
+  scripts inside the container keep the same runtime paths.
 - `releases/dataset_release_v1/` is a delivery artifact, not runtime source.
 - Historical and protocol datasets remain separated.
 - The Ubuntu runtime tree `/home/urruna/docker/tcp-lab` was intentionally
@@ -110,3 +113,7 @@ both originals remain in their respective environments.
 - An empty root directory `protocol_stego/` may remain after the move because
   a Windows process temporarily held it open; it contains no files and is
   not tracked by Git.
+- `normalTraffic.zip` was removed at the user's request; it was confirmed
+  unused.
+- The large `data_quality_report.json` files are intentionally not carried in
+  the Git repository; they remain on disk and in the release archive.

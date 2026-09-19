@@ -1,5 +1,9 @@
 # REPOSITORY_PLAN
 
+> Execution update: Phase 1 organization has been performed. The working
+> protocol_stego dataset was moved to `datasets/protocol_stego/`; the
+> container mount target remains `/work/protocol_stego/dataset`.
+
 本文件只做 GitHub 仓库规划，**不执行任何移动、删除、重构或代码修改**。
 
 审计依据：`PROJECT_AUDIT.md`（Windows `D:\C\work_DC` 与 Ubuntu

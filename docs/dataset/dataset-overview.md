@@ -42,7 +42,7 @@
 
 ## 4. protocol_stego Dataset (current main dataset)
 
-- Working location: `src/protocol_stego/dataset/`
+- Working location: `datasets/protocol_stego/`
 - Released copy: `releases/dataset_release_v1/protocol_stego/`
 - Raw normal sessions: 23
 - Raw stego sessions: 23

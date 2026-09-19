@@ -25,6 +25,7 @@ scratch/
 *.crt
 .env
 .env.*
+**/data_quality_report.json
 
 # Editor and OS
 .idea/

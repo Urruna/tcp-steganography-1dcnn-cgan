@@ -191,7 +191,7 @@ docker compose run --rm tests python scripts/baseline_analysis.py
 Main machine-learning dataset:
 
 ```text
-src/protocol_stego/dataset/processed/windows.npz
+datasets/protocol_stego/processed/windows.npz
 releases/dataset_release_v1/protocol_stego/processed/X.npy
 releases/dataset_release_v1/protocol_stego/processed/y.npy
 ```
@@ -218,7 +218,7 @@ windows: 138 (69 Normal / 69 Stego)
 ```
 
 Do not re-split windows randomly: use the existing session-level split in
-`src/protocol_stego/dataset/splits/`.
+`datasets/protocol_stego/splits/`.
 
 See `docs/dataset/dataset-overview.md`.
 

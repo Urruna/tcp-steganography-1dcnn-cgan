@@ -17,7 +17,7 @@ Before running it after the repository reorganization, confirm its internal
 paths point to:
 
 ```text
-src/protocol_stego/dataset
+datasets/protocol_stego
 datasets/historical/...
 ```
 

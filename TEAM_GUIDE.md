@@ -70,7 +70,7 @@ Expected: `PASS=True`, BER=0, CRC failures=0.
 | AES-256-GCM | `src/crypto/crypto.py` |
 | Frame protocol | `src/protocol_stego/core/framing.py`, `src/newtry97/framing.py` |
 | Basic stego | `src/protocol_stego/core/modulation.py`, `src/protocol_stego/proxy/` |
-| Current dataset | `src/protocol_stego/dataset/` |
+| Current dataset | `datasets/protocol_stego/` |
 | Released dataset | `releases/dataset_release_v1/` |
 | Experiment reports | `docs/experiments/` |
 | Planning documents | `docs/planning/` |

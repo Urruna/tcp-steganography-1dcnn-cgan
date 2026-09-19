@@ -9,7 +9,7 @@ Status values: `Completed` / `Partial` / `Design` / `Not Implemented` / `Unknown
 | Encryption | Completed | `src/crypto/` | AES-256-GCM with keygen, PBKDF2 derivation, nonce, tag, fixed 30 B overhead, self-test passed |
 | Protocol | Completed | `src/newtry97/framing.py`, `src/protocol_stego/core/framing.py`, `core/reassembly.py` | Preamble/Version/Frame ID/Length/Payload/CRC implemented; tests pass |
 | Steganography | Completed | `src/protocol_stego/core/modulation.py`, `src/protocol_stego/proxy/` | 800/1200 application-layer write-length modulation implemented and validated |
-| Dataset | Partial | `src/protocol_stego/dataset/`, `datasets/`, `releases/dataset_release_v1/` | 23 Normal + 23 Stego sessions, 138 windows; recommended 50/class not reached; Normal diversity limited |
+| Dataset | Partial | `datasets/protocol_stego/`, `releases/dataset_release_v1/` | 23 Normal + 23 Stego sessions, 138 windows; recommended 50/class not reached; Normal diversity limited |
 | 1D-CNN | Not Implemented | none | No CNN model code, training script, or weights |
 | cGAN | Design | `docs/planning/new_727.md` | Only design discussed; no GAN code, no GAN-Stego data |
 

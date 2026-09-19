@@ -11,7 +11,7 @@ services:
       - ./logs:/work/protocol_stego/logs
       - ./out:/work/protocol_stego/out
       - ./data:/work/protocol_stego/data
-      - ./dataset:/work/protocol_stego/dataset
+      - ../../datasets/protocol_stego:/work/protocol_stego/dataset
       - ./docs:/work/protocol_stego/docs
       - ./scripts:/work/protocol_stego/scripts
     command:
