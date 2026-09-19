@@ -1,0 +1,4 @@
+real dataset generated from live Client->Proxy-A->Proxy-B->Server sessions
+window=128 step=64 features=[direction, write_len, interval, cum_bytes]
+classes: 0=Normal, 1=Baseline-Stego
+files: real_{train,val,test}_{X,y}.npy and real_scaler.pkl

@@ -1,0 +1,9 @@
+Python=3.12.14
+Platform=Linux-6.18.44-x86_64-with-glibc2.39
+Device=CPU
+Threads=1
+torch=2.5.1+cpu
+numpy=2.3.5
+sklearn=1.8.0
+matplotlib=3.10.8
+joblib=1.5.3

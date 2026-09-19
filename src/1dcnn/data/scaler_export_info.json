@@ -1,0 +1,12 @@
+{
+  "source": "real_scaler.pkl",
+  "source_sha256": "16b8c209288cf1ccfeff5fb47417841f9f926aaf72d509bf65b96edecfae6396",
+  "export": "scaler_params.npz",
+  "source_class": "sklearn.preprocessing.StandardScaler",
+  "n_features": 512,
+  "n_samples_seen": 117,
+  "flatten_order": "C",
+  "source_recorded_sklearn_version": "1.7.2",
+  "export_check": "transform matches original scaler within float32 rounding tolerance; passed",
+  "runtime": "Model inference reads numeric NPZ and does not unpickle the original scaler."
+}

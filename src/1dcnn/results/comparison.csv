@@ -1,0 +1,4 @@
+﻿model,samples,threshold,accuracy,balanced_accuracy,precision,recall,f1,roc_auc,false_positive_rate,tn,fp,fn,tp
+CNN,25,0.5,0.92,0.9,0.8823529411764706,1.0,0.9375,0.9866666666666667,0.2,8,2,0,15
+LogisticRegression,25,0.5,0.88,0.9,1.0,0.8,0.8888888888888888,1.0,0.0,10,0,3,12
+Rule8001200,25,0.5,0.88,0.9,1.0,0.8,0.8888888888888888,,0.0,10,0,3,12

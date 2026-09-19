@@ -71,6 +71,7 @@ Expected: `PASS=True`, BER=0, CRC failures=0.
 | Frame protocol | `src/protocol_stego/core/framing.py`, `src/newtry97/framing.py` |
 | Basic stego | `src/protocol_stego/core/modulation.py`, `src/protocol_stego/proxy/` |
 | Current dataset | `datasets/protocol_stego/` |
+| 1D-CNN module | `src/1dcnn/` |
 | Released dataset | `releases/dataset_release_v1/` |
 | Experiment reports | `docs/experiments/` |
 | Planning documents | `docs/planning/` |
@@ -83,6 +84,8 @@ Expected: `PASS=True`, BER=0, CRC failures=0.
 - 800/1200 baseline modulation;
 - raw experiment data (`dataset/raw/**`, historical CSV files);
 - released dataset contents.
+- the trained 1D-CNN checkpoint/results under `src/1dcnn/` unless the
+  experiment is explicitly rerun and re-recorded.
 
 If a bug is found:
 

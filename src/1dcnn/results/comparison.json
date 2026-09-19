@@ -1,0 +1,47 @@
+{
+  "CNN": {
+    "samples": 25,
+    "threshold": 0.5,
+    "accuracy": 0.92,
+    "balanced_accuracy": 0.9,
+    "precision": 0.8823529411764706,
+    "recall": 1.0,
+    "f1": 0.9375,
+    "roc_auc": 0.9866666666666667,
+    "false_positive_rate": 0.2,
+    "tn": 8,
+    "fp": 2,
+    "fn": 0,
+    "tp": 15
+  },
+  "LogisticRegression": {
+    "samples": 25,
+    "threshold": 0.5,
+    "accuracy": 0.88,
+    "balanced_accuracy": 0.9,
+    "precision": 1.0,
+    "recall": 0.8,
+    "f1": 0.8888888888888888,
+    "roc_auc": 1.0,
+    "false_positive_rate": 0.0,
+    "tn": 10,
+    "fp": 0,
+    "fn": 3,
+    "tp": 12
+  },
+  "Rule8001200": {
+    "samples": 25,
+    "threshold": 0.5,
+    "accuracy": 0.88,
+    "balanced_accuracy": 0.9,
+    "precision": 1.0,
+    "recall": 0.8,
+    "f1": 0.8888888888888888,
+    "roc_auc": null,
+    "false_positive_rate": 0.0,
+    "tn": 10,
+    "fp": 0,
+    "fn": 3,
+    "tp": 12
+  }
+}

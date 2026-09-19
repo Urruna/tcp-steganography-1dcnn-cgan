@@ -1,0 +1,11 @@
+test_batch_size_does_not_change_predictions (test_pipeline.PipelineTests.test_batch_size_does_not_change_predictions) ... ok
+test_empty_batch_and_single_class_auc (test_pipeline.PipelineTests.test_empty_batch_and_single_class_auc) ... ok
+test_gan_interface_matches_detector (test_pipeline.PipelineTests.test_gan_interface_matches_detector) ... ok
+test_invalid_inputs_fail (test_pipeline.PipelineTests.test_invalid_inputs_fail) ... ok
+test_raw_and_standardized_paths_agree (test_pipeline.PipelineTests.test_raw_and_standardized_paths_agree) ... ok
+test_saved_result_matches_reloaded_model (test_pipeline.PipelineTests.test_saved_result_matches_reloaded_model) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.034s
+
+OK

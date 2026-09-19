@@ -10,7 +10,7 @@ Status values: `Completed` / `Partial` / `Design` / `Not Implemented` / `Unknown
 | Protocol | Completed | `src/newtry97/framing.py`, `src/protocol_stego/core/framing.py`, `core/reassembly.py` | Preamble/Version/Frame ID/Length/Payload/CRC implemented; tests pass |
 | Steganography | Completed | `src/protocol_stego/core/modulation.py`, `src/protocol_stego/proxy/` | 800/1200 application-layer write-length modulation implemented and validated |
 | Dataset | Partial | `datasets/protocol_stego/`, `releases/dataset_release_v1/` | 23 Normal + 23 Stego sessions, 138 windows; recommended 50/class not reached; Normal diversity limited |
-| 1D-CNN | Not Implemented | none | No CNN model code, training script, or weights |
+| 1D-CNN | Partial | `src/1dcnn/` | CNN code, trained checkpoint, interface, tests and result files exist; metrics use a separate 168-window dataset with no session index, so session isolation and cross-session generalization are not verified |
 | cGAN | Design | `docs/planning/new_727.md` | Only design discussed; no GAN code, no GAN-Stego data |
 
 Additional status:

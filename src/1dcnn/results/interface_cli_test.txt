@@ -1,0 +1,1 @@
+Saved 25 predictions to /workspace/scratch/04705848e510/cnn_delivery/results/interface_demo

@@ -1,0 +1,47 @@
+{
+  "train": {
+    "samples": 117,
+    "threshold": 0.5,
+    "accuracy": 1.0,
+    "balanced_accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "roc_auc": 1.0,
+    "false_positive_rate": 0.0,
+    "tn": 32,
+    "fp": 0,
+    "fn": 0,
+    "tp": 85
+  },
+  "val": {
+    "samples": 26,
+    "threshold": 0.5,
+    "accuracy": 1.0,
+    "balanced_accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "roc_auc": 1.0,
+    "false_positive_rate": 0.0,
+    "tn": 6,
+    "fp": 0,
+    "fn": 0,
+    "tp": 20
+  },
+  "test": {
+    "samples": 25,
+    "threshold": 0.5,
+    "accuracy": 0.92,
+    "balanced_accuracy": 0.9,
+    "precision": 0.8823529411764706,
+    "recall": 1.0,
+    "f1": 0.9375,
+    "roc_auc": 0.9866666666666667,
+    "false_positive_rate": 0.2,
+    "tn": 8,
+    "fp": 2,
+    "fn": 0,
+    "tp": 15
+  }
+}

@@ -95,7 +95,7 @@ Short version:
 - 800/1200 application-layer stego: Completed
 - Dataset (raw/processed/splits): Partial (23 Normal + 23 Stego sessions)
 - Rule-based + Logistic Regression baseline: Completed
-- 1D-CNN: Not Implemented
+- 1D-CNN: Partial (implemented/trained in `src/1dcnn/`; preliminary metrics use a separate 168-window dataset with unverified session split)
 - cGAN / GAN-Stego: Design only
 
 ## Repository Structure
@@ -123,7 +123,8 @@ Short version:
 │   ├── normal_file_transfer/
 │   ├── crypto/
 │   ├── newtry97/
-│   └── protocol_stego/
+│   ├── protocol_stego/
+│   └── 1dcnn/
 ├── datasets/
 │   ├── historical/
 │   ├── normal_v1/
@@ -292,12 +293,52 @@ Existing experiment results:
 - `docs/experiments/data-quality-report.md`
 - `docs/experiments/baseline-analysis.md`
 - `docs/experiments/newtry97-v0.2.md`
+- `docs/experiments/1dcnn-results.md`
 
 Current dataset quality verdict: `READY_FOR_CNN`.
 
 The current Normal data is mostly 1024 B writes, while Stego is 800/1200 B.
 Therefore a CNN run mainly tests detection of the 800/1200 modulation
 signature, not general steganography detection.
+
+## 1D-CNN
+
+The independent 1D-CNN delivery is in:
+
+```text
+src/1dcnn/
+```
+
+It contains the CNN model, training/evaluation code, a frozen inference
+interface for GAN/external windows, Logistic Regression and rule baselines,
+a trained checkpoint, and result reports.
+
+Run:
+
+```bash
+cd src/1dcnn
+python -m pip install -r requirements.txt
+python evaluate.py
+python -m unittest discover -s tests -v
+```
+
+Important: this module currently uses a **separate 168-window dataset**
+(`window=128`, `step=64`) with no session index. It has no exact window
+overlap with the 138-window dataset in `datasets/protocol_stego/`.
+Therefore:
+
+- do not merge the two datasets silently;
+- do not claim cross-session generalization from the current 1D-CNN metrics.
+
+Current reported test results:
+
+```text
+CNN:  accuracy=0.9200, F1=0.9375, ROC-AUC=0.9867
+LR:   accuracy=0.8800, F1=0.8889, ROC-AUC=1.0000
+Rule: accuracy=0.8800, F1=0.8889
+```
+
+See `docs/experiments/1dcnn-results.md`.
 
 ## Team Development Notes
 

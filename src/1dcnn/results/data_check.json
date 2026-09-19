@@ -1,0 +1,62 @@
+{
+  "splits": {
+    "train": {
+      "X_shape": [
+        117,
+        4,
+        128
+      ],
+      "y_shape": [
+        117
+      ],
+      "normal": 32,
+      "stego": 85,
+      "exact_internal_duplicates": 0,
+      "finite": true
+    },
+    "val": {
+      "X_shape": [
+        26,
+        4,
+        128
+      ],
+      "y_shape": [
+        26
+      ],
+      "normal": 6,
+      "stego": 20,
+      "exact_internal_duplicates": 0,
+      "finite": true
+    },
+    "test": {
+      "X_shape": [
+        25,
+        4,
+        128
+      ],
+      "y_shape": [
+        25
+      ],
+      "normal": 10,
+      "stego": 15,
+      "exact_internal_duplicates": 0,
+      "finite": true
+    }
+  },
+  "exact_cross_split_duplicates": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "files_sha256": {
+    "real_train_X.npy": "2c9518fdaa281132306af241664c21169f74ab111ab8377060c2454d644c286d",
+    "real_train_y.npy": "015905d624a2d1a1f7ced5a9ff7920ff5e9d970247a60dd05475228444c1a0a1",
+    "real_val_X.npy": "0fc3a8b33226aaf506395101ce37fb76d4fa1c0555b79249d809bb2bf51a264c",
+    "real_val_y.npy": "87a00ec9cb32c10023854fc3014e5d596b1fbf915f34d7e996efd819287b5579",
+    "real_test_X.npy": "01059567f89b6aa7205a4e78a391724296abf96b8f1f251e82d0fabb9e2c9382",
+    "real_test_y.npy": "2860deb76ab7ba9170c94ba50d01820610997db5973bacdfd5f902c3ab859004",
+    "scaler_params.npz": "a3ccedf208dfe82193bd17c2ef9b79ef0c975b56b03ca5b306f8ffc31f10d2d6"
+  },
+  "session_split_verified": false,
+  "session_note": "未提供样本会话索引，无法验证会话隔离；数组重复检查不能替代会话检查。"
+}

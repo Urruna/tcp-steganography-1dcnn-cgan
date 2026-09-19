@@ -19,3 +19,6 @@ Important:
 - The current protocol_stego working dataset is kept in
   `datasets/protocol_stego/`.
 - The released copy is in `releases/dataset_release_v1/`.
+- The 1D-CNN module under `src/1dcnn/` currently ships its own separate
+  168-window dataset in `src/1dcnn/data/`; that dataset has no exact overlap
+  with `datasets/protocol_stego/` and must not be silently merged with it.
