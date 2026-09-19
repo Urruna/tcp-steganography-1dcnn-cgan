@@ -1,0 +1,107 @@
+name: newtry97-917
+
+services:
+  server:
+    build: .
+    image: newtry97-node:917
+    command:
+      - python
+      - echo_server.py
+      - --host
+      - 0.0.0.0
+      - --port
+      - "9003"
+    networks:
+      - server_net
+
+  proxy_b:
+    build: .
+    image: newtry97-node:917
+    command:
+      - python
+      - receiver_proxy.py
+      - --listen-host
+      - 0.0.0.0
+      - --listen-port
+      - "9002"
+      - --server-host
+      - server
+      - --server-port
+      - "9003"
+      - --recovered-file
+      - /app/logs/docker917/recovered.txt
+      - --log-dir
+      - /app/logs/docker917
+      - --experiment-id
+      - work917
+      - --session-id
+      - work917-docker-001
+    volumes:
+      - ./logs/docker917:/app/logs/docker917
+    depends_on:
+      - server
+    networks:
+      - server_net
+      - backbone_net
+
+  proxy_a:
+    build: .
+    image: newtry97-node:917
+    command:
+      - python
+      - sender_proxy.py
+      - --listen-host
+      - 0.0.0.0
+      - --listen-port
+      - "9001"
+      - --upstream-host
+      - proxy_b
+      - --upstream-port
+      - "9002"
+      - --message
+      - Hello from A to B (newtry97)
+      - --gap
+      - "0.12"
+      - --log-dir
+      - /app/logs/docker917
+      - --experiment-id
+      - work917
+      - --session-id
+      - work917-docker-001
+      - --frame-id
+      - "917"
+      - --leading-normal
+      - "16"
+    volumes:
+      - ./logs/docker917:/app/logs/docker917
+    depends_on:
+      - proxy_b
+    networks:
+      - backbone_net
+      - client_net
+
+  client:
+    build: .
+    image: newtry97-node:917
+    command:
+      - python
+      - container_client.py
+    environment:
+      TARGET_HOST: proxy_a
+      TARGET_PORT: "9001"
+      SECRET_MESSAGE: Hello from A to B (newtry97)
+      FRAME_ID: "917"
+      LEADING_NORMAL: "16"
+      TRAILING_NORMAL: "16"
+    depends_on:
+      - proxy_a
+    networks:
+      - client_net
+
+networks:
+  client_net:
+    internal: true
+  backbone_net:
+    internal: true
+  server_net:
+    internal: true

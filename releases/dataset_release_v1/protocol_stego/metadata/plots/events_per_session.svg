@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420">
+<text x="480.0" y="28" text-anchor="middle" font-size="18">Events per session</text>
+<line x1="70" y1="50" x2="70" y2="330" stroke="black"/>
+<line x1="70" y1="330" x2="920" y2="330" stroke="black"/>
+<rect x="74.6" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="79.2" y="348" text-anchor="middle" font-size="11">normal_000001</text>
+<rect x="93.1" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="97.7" y="348" text-anchor="middle" font-size="11">normal_000002</text>
+<rect x="111.6" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="116.2" y="348" text-anchor="middle" font-size="11">normal_000003</text>
+<rect x="130.1" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="134.7" y="348" text-anchor="middle" font-size="11">normal_000004</text>
+<rect x="148.5" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="153.2" y="348" text-anchor="middle" font-size="11">normal_000005</text>
+<rect x="167.0" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="171.6" y="348" text-anchor="middle" font-size="11">normal_000006</text>
+<rect x="185.5" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="190.1" y="348" text-anchor="middle" font-size="11">normal_000007</text>
+<rect x="204.0" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="208.6" y="348" text-anchor="middle" font-size="11">normal_000008</text>
+<rect x="222.4" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="227.1" y="348" text-anchor="middle" font-size="11">normal_000009</text>
+<rect x="240.9" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="245.5" y="348" text-anchor="middle" font-size="11">normal_000010</text>
+<rect x="259.4" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="264.0" y="348" text-anchor="middle" font-size="11">normal_000011</text>
+<rect x="277.9" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="282.5" y="348" text-anchor="middle" font-size="11">normal_000012</text>
+<rect x="296.4" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="301.0" y="348" text-anchor="middle" font-size="11">normal_000013</text>
+<rect x="314.8" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="319.5" y="348" text-anchor="middle" font-size="11">normal_000014</text>
+<rect x="333.3" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="337.9" y="348" text-anchor="middle" font-size="11">normal_000015</text>
+<rect x="351.8" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="356.4" y="348" text-anchor="middle" font-size="11">normal_000016</text>
+<rect x="370.3" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="374.9" y="348" text-anchor="middle" font-size="11">normal_000017</text>
+<rect x="388.8" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="393.4" y="348" text-anchor="middle" font-size="11">normal_000018</text>
+<rect x="407.2" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="411.8" y="348" text-anchor="middle" font-size="11">normal_000019</text>
+<rect x="425.7" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="430.3" y="348" text-anchor="middle" font-size="11">normal_000020</text>
+<rect x="444.2" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="448.8" y="348" text-anchor="middle" font-size="11">normal_000021</text>
+<rect x="462.7" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="467.3" y="348" text-anchor="middle" font-size="11">normal_000022</text>
+<rect x="481.1" y="56.1" width="9.2" height="273.9" fill="#54a24b"/>
+<text x="485.8" y="348" text-anchor="middle" font-size="11">normal_000023</text>
+<rect x="499.6" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="504.2" y="348" text-anchor="middle" font-size="11">stego_000001</text>
+<rect x="518.1" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="522.7" y="348" text-anchor="middle" font-size="11">stego_000002</text>
+<rect x="536.6" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="541.2" y="348" text-anchor="middle" font-size="11">stego_000003</text>
+<rect x="555.1" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="559.7" y="348" text-anchor="middle" font-size="11">stego_000004</text>
+<rect x="573.5" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="578.2" y="348" text-anchor="middle" font-size="11">stego_000005</text>
+<rect x="592.0" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="596.6" y="348" text-anchor="middle" font-size="11">stego_000006</text>
+<rect x="610.5" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="615.1" y="348" text-anchor="middle" font-size="11">stego_000007</text>
+<rect x="629.0" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="633.6" y="348" text-anchor="middle" font-size="11">stego_000008</text>
+<rect x="647.4" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="652.1" y="348" text-anchor="middle" font-size="11">stego_000009</text>
+<rect x="665.9" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="670.5" y="348" text-anchor="middle" font-size="11">stego_000010</text>
+<rect x="684.4" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="689.0" y="348" text-anchor="middle" font-size="11">stego_000011</text>
+<rect x="702.9" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="707.5" y="348" text-anchor="middle" font-size="11">stego_000012</text>
+<rect x="721.4" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="726.0" y="348" text-anchor="middle" font-size="11">stego_000013</text>
+<rect x="739.8" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="744.5" y="348" text-anchor="middle" font-size="11">stego_000014</text>
+<rect x="758.3" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="762.9" y="348" text-anchor="middle" font-size="11">stego_000015</text>
+<rect x="776.8" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="781.4" y="348" text-anchor="middle" font-size="11">stego_000016</text>
+<rect x="795.3" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="799.9" y="348" text-anchor="middle" font-size="11">stego_000017</text>
+<rect x="813.8" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="818.4" y="348" text-anchor="middle" font-size="11">stego_000018</text>
+<rect x="832.2" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="836.8" y="348" text-anchor="middle" font-size="11">stego_000019</text>
+<rect x="850.7" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="855.3" y="348" text-anchor="middle" font-size="11">stego_000020</text>
+<rect x="869.2" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="873.8" y="348" text-anchor="middle" font-size="11">stego_000021</text>
+<rect x="887.7" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="892.3" y="348" text-anchor="middle" font-size="11">stego_000022</text>
+<rect x="906.1" y="50.0" width="9.2" height="280.0" fill="#54a24b"/>
+<text x="910.8" y="348" text-anchor="middle" font-size="11">stego_000023</text>
+<rect x="70" y="380" width="14" height="14" fill="#54a24b"/><text x="90" y="392" font-size="12">event_count</text>
+</svg>

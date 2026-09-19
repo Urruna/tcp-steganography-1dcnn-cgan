@@ -1,0 +1,5 @@
+logs/
+__pycache__/
+*.pyc
+work917.md
+*.tar.gz

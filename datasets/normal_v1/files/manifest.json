@@ -1,0 +1,20 @@
+{
+  "experiment_id": "normal_v1",
+  "files": [
+    {
+      "name": "report_small.txt",
+      "bytes": 65536,
+      "sha256": "926f009dbde5fc58b3b5699ad1d5d209fc18d02fef2662040cfc3d171c054c66"
+    },
+    {
+      "name": "report_medium.txt",
+      "bytes": 262144,
+      "sha256": "83331bae54cf87cc24eb873be35309896d33bf836f4bedd53fe42bd87745eb8a"
+    },
+    {
+      "name": "report_large.bin",
+      "bytes": 1048576,
+      "sha256": "14366c405414567cd124a21004d2d4476939cdd49ad323b2d03c982c5fa7fdb4"
+    }
+  ]
+}

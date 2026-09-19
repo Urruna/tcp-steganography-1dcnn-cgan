@@ -1,0 +1,62 @@
+version: "3.3"
+
+services:
+  server:
+    build: .
+    command: python echo_server.py
+    networks:
+      - server_net
+
+  proxy_b:
+    build: .
+    command: python proxy.py
+    environment:
+      PROXY_NAME: proxy_b
+      LISTEN_HOST: 0.0.0.0
+      LISTEN_PORT: 9002
+      TARGET_HOST: server
+      TARGET_PORT: 9003
+    depends_on:
+      - server
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - backbone_net
+      - server_net
+
+  proxy_a:
+    build: .
+    command: python proxy.py
+    environment:
+      PROXY_NAME: proxy_a
+      LISTEN_HOST: 0.0.0.0
+      LISTEN_PORT: 9001
+      TARGET_HOST: proxy_b
+      TARGET_PORT: 9002
+    depends_on:
+      - proxy_b
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - client_net
+      - backbone_net
+
+  client:
+    build: .
+    command: python client.py
+    environment:
+      TARGET_HOST: proxy_a
+      TARGET_PORT: 9001
+      TEST_MESSAGE: hello network
+    depends_on:
+      - proxy_a
+    networks:
+      - client_net
+
+networks:
+  client_net:
+    internal: true
+  backbone_net:
+    internal: true
+  server_net:
+    internal: true

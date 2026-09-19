@@ -1,0 +1,5 @@
+timestamp,proxy_name,session_id,direction,event_index,byte_length,inter_event_gap_ms
+1785304926.957932,proxy_b,3d3ea170-a09e-4989-8b2f-9461830abf11,forward,1,13,1.266
+1785304926.958619,proxy_b,3d3ea170-a09e-4989-8b2f-9461830abf11,reverse,1,13,1.942
+1789650656.502062,proxy_b,unknown,2adcf9be-44d8-4ffb-bb08-0f69cb16633f,forward,1,13,0.011
+1789650656.504625,proxy_b,unknown,2adcf9be-44d8-4ffb-bb08-0f69cb16633f,reverse,1,13,1.943

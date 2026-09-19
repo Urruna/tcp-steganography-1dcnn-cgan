@@ -1,0 +1,8 @@
+{
+  "rounds": 200,
+  "overhead_bytes": 30,
+  "padded_ok": true,
+  "tamper_detected": true,
+  "wrong_key_detected": true,
+  "passed": true
+}

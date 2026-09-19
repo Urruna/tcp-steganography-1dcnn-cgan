@@ -1,0 +1,95 @@
+{
+  "experiment_id": "normal_v1",
+  "files": [
+    {
+      "file": "client_events.csv",
+      "rows": 8,
+      "columns": [
+        "timestamp",
+        "experiment_id",
+        "session_index",
+        "client_session_id",
+        "target",
+        "path",
+        "status",
+        "request_bytes",
+        "response_bytes",
+        "duration_ms",
+        "sha256",
+        "expected_sha256",
+        "result"
+      ],
+      "paths": {
+        "/report_small.txt": 3,
+        "/report_medium.txt": 3,
+        "/report_large.bin": 2
+      },
+      "result_counts": {
+        "ok": 8
+      }
+    },
+    {
+      "file": "proxy_a_events.csv",
+      "rows": 771,
+      "columns": [
+        "timestamp",
+        "proxy_name",
+        "experiment_id",
+        "session_id",
+        "direction",
+        "event_index",
+        "byte_length",
+        "inter_event_gap_ms"
+      ],
+      "directions": {
+        "forward": 8,
+        "reverse": 763
+      },
+      "sessions": 8,
+      "total_bytes": 3082890
+    },
+    {
+      "file": "proxy_b_events.csv",
+      "rows": 773,
+      "columns": [
+        "timestamp",
+        "proxy_name",
+        "experiment_id",
+        "session_id",
+        "direction",
+        "event_index",
+        "byte_length",
+        "inter_event_gap_ms"
+      ],
+      "directions": {
+        "forward": 8,
+        "reverse": 765
+      },
+      "sessions": 8,
+      "total_bytes": 3082890
+    },
+    {
+      "file": "server_events.csv",
+      "rows": 8,
+      "columns": [
+        "timestamp",
+        "experiment_id",
+        "connection_id",
+        "client",
+        "method",
+        "path",
+        "status",
+        "bytes_sent",
+        "duration_ms"
+      ],
+      "paths": {
+        "/report_small.txt": 3,
+        "/report_medium.txt": 3,
+        "/report_large.bin": 2
+      },
+      "result_counts": {
+        "": 8
+      }
+    }
+  ]
+}

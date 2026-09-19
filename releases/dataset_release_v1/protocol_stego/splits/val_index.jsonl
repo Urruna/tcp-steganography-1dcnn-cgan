@@ -1,0 +1,12 @@
+{"session_id": "normal_000001", "window_id": 0, "label": 0, "start_event": 0, "end_event": 128}
+{"session_id": "normal_000001", "window_id": 1, "label": 0, "start_event": 128, "end_event": 256}
+{"session_id": "normal_000001", "window_id": 2, "label": 0, "start_event": 256, "end_event": 384}
+{"session_id": "normal_000009", "window_id": 0, "label": 0, "start_event": 0, "end_event": 128}
+{"session_id": "normal_000009", "window_id": 1, "label": 0, "start_event": 128, "end_event": 256}
+{"session_id": "normal_000009", "window_id": 2, "label": 0, "start_event": 256, "end_event": 384}
+{"session_id": "stego_000005", "window_id": 0, "label": 1, "start_event": 0, "end_event": 128}
+{"session_id": "stego_000005", "window_id": 1, "label": 1, "start_event": 128, "end_event": 256}
+{"session_id": "stego_000005", "window_id": 2, "label": 1, "start_event": 256, "end_event": 384}
+{"session_id": "stego_000015", "window_id": 0, "label": 1, "start_event": 0, "end_event": 128}
+{"session_id": "stego_000015", "window_id": 1, "label": 1, "start_event": 128, "end_event": 256}
+{"session_id": "stego_000015", "window_id": 2, "label": 1, "start_event": 256, "end_event": 384}

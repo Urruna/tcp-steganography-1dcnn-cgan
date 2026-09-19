@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local runtime output
+*.log
+tmp/
+scratch/
+
+# Secrets and keys
+*.key
+*_key.bin
+*demo_key*
+*.pem
+*.p12
+*.crt
+.env
+.env.*
+
+# Editor and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# VMware
+*.vmdk
+*.vmem
+*.vmsn
+*.vmss
+*.nvram
+
+# Local archives / scratch extraction
+*.tgz
+*.tar.gz
+
+# Local cache
+.cache/

@@ -1,0 +1,24 @@
+{
+  "window_size": 128,
+  "features": [
+    "direction",
+    "length",
+    "inter_arrival_time",
+    "cumulative_bytes"
+  ],
+  "X_shape": [
+    138,
+    4,
+    128
+  ],
+  "y_shape": [
+    138
+  ],
+  "sessions_seen": 46,
+  "sessions_used": 46,
+  "skipped_sessions": [],
+  "class_distribution": {
+    "normal": 69,
+    "stego": 69
+  }
+}

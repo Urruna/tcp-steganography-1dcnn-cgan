@@ -1,0 +1,18 @@
+protocol:
+  version: 1
+  preamble: 1855428513
+  max_payload_size: 512
+  frame_id_max: 65535
+  crc: crc16-xmodem
+stego:
+  low_length: 800
+  high_length: 1200
+  tolerance: 80
+  block_gap_ms: 20
+  recv_buffer: 4096
+logging:
+  enabled: true
+  dir: logs
+demo:
+  secret_size: 64
+  cover_seed: 917

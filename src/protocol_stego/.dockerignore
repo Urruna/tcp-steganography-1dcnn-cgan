@@ -1,0 +1,6 @@
+logs/
+out/
+data/
+__pycache__/
+*.pyc
+*.tar.gz

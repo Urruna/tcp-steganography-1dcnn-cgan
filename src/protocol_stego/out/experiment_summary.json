@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "secret_size": 64,
+  "recovered_size": 64,
+  "plaintext_match": true,
+  "cover_match": true,
+  "total_bits": 840,
+  "bit_error_count": 0,
+  "ber": 0.0,
+  "frame_count": 1,
+  "received_frame_count": 1,
+  "frame_error_count": 0,
+  "frame_error_rate": 0.0,
+  "crc_failure_count": 0,
+  "ciphertext_bytes": 94,
+  "cover_bytes": 825600,
+  "duration_ms": 9752.239511999505,
+  "throughput_secret_Bps": 6.562595178394881,
+  "sender_duration_ms": 9743.238783999914,
+  "receiver_error_reason": null,
+  "decoder_errors": []
+}

@@ -1,0 +1,23 @@
+{
+  "integrity_passed": true,
+  "X_shape": [
+    138,
+    4,
+    128
+  ],
+  "y_shape": [
+    138
+  ],
+  "session_count": {
+    "normal": 23,
+    "stego": 23
+  },
+  "event_count": {
+    "normal": 10258,
+    "stego": 10488
+  },
+  "checksum_count": 526,
+  "zip_path": "D:\\C\\work_DC\\dataset_release.zip",
+  "zip_bytes": 1488853,
+  "zip_sha256": "0ac3c6e4e279407bae16ac7f69dcb099e9296a50ae3fdae3169032fbb65744ae"
+}

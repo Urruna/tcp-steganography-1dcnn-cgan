@@ -1,0 +1,7 @@
+logs/
+downloads/
+files/
+__pycache__/
+*.pyc
+data.md
+*.tar.gz

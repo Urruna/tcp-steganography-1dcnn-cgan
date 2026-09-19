@@ -1,0 +1,118 @@
+name: normal-dataset
+
+services:
+  server:
+    build: .
+    image: normal-dataset-node:1
+    command:
+      - sh
+      - -c
+      - python make_files.py --dir /app/files && python file_server.py
+    environment:
+      EXPERIMENT_ID: normal_v1
+      FILES_DIR: /app/files
+      LOG_DIR: /app/logs
+    volumes:
+      - ./files:/app/files
+      - ./logs:/app/logs
+    networks:
+      - server_net
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c "import socket; s=socket.create_connection(('127.0.0.1',9003),2); s.close()"
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  proxy_b:
+    build: .
+    image: normal-dataset-node:1
+    command:
+      - python
+      - normal_proxy.py
+    environment:
+      PROXY_NAME: proxy_b
+      EXPERIMENT_ID: normal_v1
+      LISTEN_HOST: 0.0.0.0
+      LISTEN_PORT: "9002"
+      TARGET_HOST: server
+      TARGET_PORT: "9003"
+      LOG_DIR: /app/logs
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      server:
+        condition: service_healthy
+    networks:
+      - server_net
+      - backbone_net
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c "import socket; s=socket.create_connection(('127.0.0.1',9002),2); s.close()"
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  proxy_a:
+    build: .
+    image: normal-dataset-node:1
+    command:
+      - python
+      - normal_proxy.py
+    environment:
+      PROXY_NAME: proxy_a
+      EXPERIMENT_ID: normal_v1
+      LISTEN_HOST: 0.0.0.0
+      LISTEN_PORT: "9001"
+      TARGET_HOST: proxy_b
+      TARGET_PORT: "9002"
+      LOG_DIR: /app/logs
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      proxy_b:
+        condition: service_healthy
+    networks:
+      - backbone_net
+      - client_net
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c "import socket; s=socket.create_connection(('127.0.0.1',9001),2); s.close()"
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  client:
+    build: .
+    image: normal-dataset-node:1
+    command:
+      - python
+      - file_client.py
+    environment:
+      TARGET_HOST: proxy_a
+      TARGET_PORT: "9001"
+      FILE_PATHS: /report_small.txt,/report_medium.txt,/report_large.bin
+      SESSIONS: "8"
+      INTER_SESSION_DELAY: "0.5"
+      EXPERIMENT_ID: normal_v1
+      LOG_FILE: /app/logs/client_events.csv
+      DOWNLOAD_DIR: /app/downloads
+    volumes:
+      - ./logs:/app/logs
+      - ./downloads:/app/downloads
+    depends_on:
+      proxy_a:
+        condition: service_healthy
+    networks:
+      - client_net
+
+networks:
+  client_net:
+    internal: true
+  backbone_net:
+    internal: true
+  server_net:
+    internal: true

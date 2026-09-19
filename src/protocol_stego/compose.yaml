@@ -1,0 +1,24 @@
+name: protocol-stego
+
+services:
+  tests:
+    build:
+      context: ..
+      dockerfile: protocol_stego/Dockerfile
+    image: protocol-stego:1
+    working_dir: /work/protocol_stego
+    volumes:
+      - ./logs:/work/protocol_stego/logs
+      - ./out:/work/protocol_stego/out
+      - ./data:/work/protocol_stego/data
+      - ./dataset:/work/protocol_stego/dataset
+      - ./docs:/work/protocol_stego/docs
+      - ./scripts:/work/protocol_stego/scripts
+    command:
+      - python
+      - -m
+      - unittest
+      - discover
+      - -s
+      - tests
+      - -v

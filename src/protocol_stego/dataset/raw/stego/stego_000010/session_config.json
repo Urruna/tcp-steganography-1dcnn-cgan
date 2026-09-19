@@ -1,0 +1,26 @@
+{
+  "num_normal_sessions": 100,
+  "num_stego_sessions": 100,
+  "session_duration": 30,
+  "secret_size": 16,
+  "block_gap_ms": 20,
+  "random_seed": 42,
+  "normal_chunk_size": 1024,
+  "window_size": 128,
+  "val_ratio": 0.1,
+  "test_ratio": 0.1,
+  "split_seed": 42,
+  "session_id": "stego_000010",
+  "mode": "stego",
+  "label": 1,
+  "project_config_path": "config.yaml",
+  "ports": {
+    "proxy_a": 36239,
+    "proxy_b": 38455,
+    "server": 36165
+  },
+  "key_derivation": "PBKDF2-HMAC-SHA256(default salt newtry97-crypto-v1, 200000 iterations)",
+  "key_passphrase_pattern": "<random_seed>:<session_id>:newtry97",
+  "secret_sha256": "01a227a92ccf405f85fddf200efb5c1cbd93a722f41f3e0f15015f0836bfc6f8",
+  "expected_duration_ms": 9120
+}

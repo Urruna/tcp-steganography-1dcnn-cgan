@@ -1,0 +1,84 @@
+{
+  "val_ratio": 0.1,
+  "test_ratio": 0.1,
+  "seed": 42,
+  "splits": {
+    "train": {
+      "sessions": [
+        "normal_000002",
+        "normal_000003",
+        "normal_000005",
+        "normal_000006",
+        "normal_000007",
+        "normal_000008",
+        "normal_000010",
+        "normal_000011",
+        "normal_000012",
+        "normal_000013",
+        "normal_000014",
+        "normal_000015",
+        "normal_000016",
+        "normal_000017",
+        "normal_000018",
+        "normal_000019",
+        "normal_000020",
+        "normal_000022",
+        "normal_000023",
+        "stego_000001",
+        "stego_000003",
+        "stego_000004",
+        "stego_000006",
+        "stego_000007",
+        "stego_000008",
+        "stego_000009",
+        "stego_000011",
+        "stego_000012",
+        "stego_000013",
+        "stego_000014",
+        "stego_000016",
+        "stego_000017",
+        "stego_000018",
+        "stego_000019",
+        "stego_000020",
+        "stego_000021",
+        "stego_000022",
+        "stego_000023"
+      ],
+      "session_count": 38,
+      "sample_count": 114,
+      "class_distribution": {
+        "normal": 57,
+        "stego": 57
+      }
+    },
+    "val": {
+      "sessions": [
+        "normal_000001",
+        "normal_000009",
+        "stego_000005",
+        "stego_000015"
+      ],
+      "session_count": 4,
+      "sample_count": 12,
+      "class_distribution": {
+        "normal": 6,
+        "stego": 6
+      }
+    },
+    "test": {
+      "sessions": [
+        "normal_000004",
+        "normal_000021",
+        "stego_000002",
+        "stego_000010"
+      ],
+      "session_count": 4,
+      "sample_count": 12,
+      "class_distribution": {
+        "normal": 6,
+        "stego": 6
+      }
+    }
+  },
+  "overlap_checked": true
+}

@@ -1,0 +1,79 @@
+{
+  "client_events.csv": {
+    "rows": 256,
+    "columns": [
+      "timestamp",
+      "experiment_id",
+      "event_index",
+      "expected_byte_length",
+      "status"
+    ],
+    "sessions": 1,
+    "directions": {
+      "forward": 0,
+      "reverse": 0
+    },
+    "lengths": [
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "statuses": {
+      "passed": 256
+    }
+  },
+  "proxy_a_events.csv": {
+    "rows": 512,
+    "columns": [
+      "timestamp",
+      "proxy_name",
+      "experiment_id",
+      "session_id",
+      "direction",
+      "event_index",
+      "byte_length",
+      "inter_event_gap_ms"
+    ],
+    "sessions": 1,
+    "directions": {
+      "forward": 256,
+      "reverse": 256
+    },
+    "lengths": [
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "statuses": {}
+  },
+  "proxy_b_events.csv": {
+    "rows": 512,
+    "columns": [
+      "timestamp",
+      "proxy_name",
+      "experiment_id",
+      "session_id",
+      "direction",
+      "event_index",
+      "byte_length",
+      "inter_event_gap_ms"
+    ],
+    "sessions": 1,
+    "directions": {
+      "forward": 256,
+      "reverse": 256
+    },
+    "lengths": [
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "statuses": {}
+  }
+}
