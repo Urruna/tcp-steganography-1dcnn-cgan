@@ -104,3 +104,41 @@ by this organization step. See `docs/migration-notes.md`.
 
 Source: `src/1dcnn/README.md`, `src/1dcnn/results/result_report.md`,
 `src/1dcnn/results/software_tests.txt`.
+
+## 2026-09-21 – cWGAN-GP module
+
+- Added `src/cWGAN-GP/`: a conditional WGAN-GP whose generator emits only the
+  application-layer length channel `[B, 128]`, projected onto two
+  non-overlapping length bands, plus `README_cWGAN.md`.
+- The module documents a hard requirement of at least **1000 training
+  windows**. With the current 114 training windows both critic and generator
+  losses diverge monotonically; no checkpoint and no generated data were
+  produced.
+
+Source: Git commit `6840169` ("Add cWGAN-GP module and README"), which is also
+the first entry in this changelog taken directly from Git history rather than
+from file timestamps.
+
+## 2026-09-26 – consolidation and status review
+
+This pass did not change any algorithm, dataset or Docker definition.
+
+- Cloned the GitHub repository into the OS projects directory as
+  `projects/tcp-steganography`.
+- Read-only verified the Ubuntu6.21 VM project directory
+  (`/home/urruna/docker/tcp-lab`, 1162 files): no file newer than 2026-09-20,
+  no `1dcnn` or `cWGAN-GP` directory, and no result that is missing from the
+  repository.
+- Compared the local working copy (`D:\C\work_DC`, commit `01f8304`): the only
+  extra files are four intentionally ignored artifacts (two 19.7 MB
+  `data_quality_report.json` files excluded by `.gitignore`, and two `*.log`
+  files).
+- Added `PROJECT_REVIEW.md`: consolidated Chinese overview of the project,
+  the three sources, and the prioritized next steps.
+- Added `docs/experiments/cwgan-results.md`: what the cWGAN-GP module actually
+  contains, the data-volume blocker, and the verified data-interface
+  inconsistencies.
+- Corrected the cGAN status from `Design` to `Partial` in `PROJECT_STATUS.md`,
+  `README.md`, `docs/architecture/workflow.md` and
+  `docs/architecture/project-overview.md`, which previously still listed the
+  1D-CNN as not implemented.

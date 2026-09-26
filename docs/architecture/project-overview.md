@@ -49,11 +49,14 @@ Implemented now:
 - 800/1200 application-layer write-length stego;
 - raw dataset and fixed-window processed dataset;
 - rule-based and Logistic Regression baselines.
+- a 1D-CNN module with a trained checkpoint and result files, but on a
+  separate 168-window dataset whose session split is unverified
+  (`src/1dcnn/`);
+- a conditional WGAN-GP module for length-strategy generation, with no
+  completed training run yet (`src/cWGAN-GP/`).
 
 Not implemented now:
 
-- 1D-CNN;
-- cGAN;
 - GAN-Stego;
 - FEC / retransmission;
 - pcap-based feature extraction.

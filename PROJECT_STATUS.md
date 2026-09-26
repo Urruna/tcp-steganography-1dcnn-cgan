@@ -11,7 +11,7 @@ Status values: `Completed` / `Partial` / `Design` / `Not Implemented` / `Unknown
 | Steganography | Completed | `src/protocol_stego/core/modulation.py`, `src/protocol_stego/proxy/` | 800/1200 application-layer write-length modulation implemented and validated |
 | Dataset | Partial | `datasets/protocol_stego/`, `releases/dataset_release_v1/` | 23 Normal + 23 Stego sessions, 138 windows; recommended 50/class not reached; Normal diversity limited |
 | 1D-CNN | Partial | `src/1dcnn/` | CNN code, trained checkpoint, interface, tests and result files exist; metrics use a separate 168-window dataset with no session index, so session isolation and cross-session generalization are not verified |
-| cGAN | Design | `docs/planning/new_727.md` | Only design discussed; no GAN code, no GAN-Stego data |
+| cGAN | Partial | `src/cWGAN-GP/` | Conditional WGAN-GP implemented (generator outputs the length channel only, projected onto two non-overlapping length bands); training is blocked by data volume (114 train windows vs the ≥1000 the module requires), so there is no checkpoint, no synthetic data and no GAN-Stego result. See `docs/experiments/cwgan-results.md` |
 
 Additional status:
 
@@ -24,3 +24,4 @@ Additional status:
 | pcap capture | Not Implemented | no `.pcap` files found |
 | FEC / retransmission | Not Implemented | not present in protocol code |
 | GAN-Stego data | Not Implemented | no generator and no dataset |
+| cWGAN-GP data interface | Partial | `src/cWGAN-GP/cWGAN-GP.py` expects `real_train_X.npy` / `real_train_y.npy` under `datasets/protocol_stego/`; only `processed/windows.npz` is present, and the length band constants assume a standardized length channel |

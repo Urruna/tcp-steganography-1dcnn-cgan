@@ -72,6 +72,7 @@ Expected: `PASS=True`, BER=0, CRC failures=0.
 | Basic stego | `src/protocol_stego/core/modulation.py`, `src/protocol_stego/proxy/` |
 | Current dataset | `datasets/protocol_stego/` |
 | 1D-CNN module | `src/1dcnn/` |
+| cWGAN-GP module | `src/cWGAN-GP/` |
 | Released dataset | `releases/dataset_release_v1/` |
 | Experiment reports | `docs/experiments/` |
 | Planning documents | `docs/planning/` |

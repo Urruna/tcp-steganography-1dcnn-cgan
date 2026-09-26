@@ -26,7 +26,7 @@ Evaluation
 | Basic Stego | Completed | 800/1200 length modulation, 23 Stego sessions |
 | Dataset | Partial | 138 windows, session-level split, quality report |
 | 1D-CNN | Partial | implemented/trained in `src/1dcnn/`; preliminary metrics use a separate 168-window dataset whose session split is unverified |
-| cGAN | Design | only `new_727.md` plan |
+| cGAN | Partial | code in `src/cWGAN-GP/`; training blocked by data volume, no checkpoint or result |
 | GAN-Stego | Not Implemented | no generator and no data |
 | Evaluation | Partial | rule-based and Logistic Regression baselines only |
 

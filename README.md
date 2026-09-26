@@ -96,13 +96,18 @@ Short version:
 - Dataset (raw/processed/splits): Partial (23 Normal + 23 Stego sessions)
 - Rule-based + Logistic Regression baseline: Completed
 - 1D-CNN: Partial (implemented/trained in `src/1dcnn/`; preliminary metrics use a separate 168-window dataset with unverified session split)
-- cGAN / GAN-Stego: Design only
+- cGAN: Partial (conditional WGAN-GP implemented in `src/cWGAN-GP/`; training blocked by data volume, no checkpoint and no result)
+- GAN-Stego: Not Implemented
+
+For a consolidated Chinese overview of all three sources (repository,
+Ubuntu6.21 VM, local working copy), see `PROJECT_REVIEW.md`.
 
 ## Repository Structure
 
 ```text
 .
 ├── README.md
+├── PROJECT_REVIEW.md
 ├── PROJECT_STATUS.md
 ├── PROJECT_AUDIT.md
 ├── REPOSITORY_PLAN.md
@@ -124,7 +129,8 @@ Short version:
 │   ├── crypto/
 │   ├── newtry97/
 │   ├── protocol_stego/
-│   └── 1dcnn/
+│   ├── 1dcnn/
+│   └── cWGAN-GP/
 ├── datasets/
 │   ├── historical/
 │   ├── normal_v1/
@@ -294,6 +300,7 @@ Existing experiment results:
 - `docs/experiments/baseline-analysis.md`
 - `docs/experiments/newtry97-v0.2.md`
 - `docs/experiments/1dcnn-results.md`
+- `docs/experiments/cwgan-results.md`
 
 Current dataset quality verdict: `READY_FOR_CNN`.
 
@@ -339,6 +346,35 @@ Rule: accuracy=0.8800, F1=0.8889
 ```
 
 See `docs/experiments/1dcnn-results.md`.
+
+## cGAN (cWGAN-GP)
+
+Module:
+
+```text
+src/cWGAN-GP/cWGAN-GP.py
+src/cWGAN-GP/README_cWGAN.md
+```
+
+It implements a conditional WGAN-GP whose generator emits only the
+application-layer **length channel** `[B, 128]`, projected onto two
+non-overlapping length bands (`BIT0_RANGE = (-1.5, -0.5)`,
+`BIT1_RANGE = (0.5, 1.5)` for a standardized length channel). Proxy-B can then
+recover the bit with a single threshold.
+
+Current state: **code only, no result.**
+
+- the module requires at least **1000 training windows**;
+- the current `datasets/protocol_stego/` train split has **114** windows
+  (23 + 23 sessions in total), and both losses diverge at that size;
+- the default `--data-dir` expects `real_train_X.npy` / `real_train_y.npy`
+  directly under `datasets/protocol_stego/`, but the repository ships
+  `processed/windows.npz`;
+- the length band constants assume a standardized length channel, while the
+  protocol dataset stores raw byte lengths.
+
+There is no checkpoint, no generated data and no GAN-Stego evaluation yet.
+See `docs/experiments/cwgan-results.md`.
 
 ## Team Development Notes
 
