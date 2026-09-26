@@ -119,6 +119,42 @@ Source: Git commit `6840169` ("Add cWGAN-GP module and README"), which is also
 the first entry in this changelog taken directly from Git history rather than
 from file timestamps.
 
+## 2026-09-26 – dataset scale-up to 466 sessions
+
+No protocol, modulation, encryption or Docker definition was changed.
+
+- Collected 210 new Normal and 210 new Stego sessions on the Ubuntu6.21 VM
+  with the same parameters as the original 23 + 23 (`seed=42`,
+  `secret_size=16`, `block_gap_ms=20`, `window_size=128`).
+- Eight Stego sessions failed with the already-documented
+  `length_out_of_range` (receiver-side coalescing of two proxy writes,
+  observed 1600/2000 B). They were moved to the VM's
+  `protocol_stego/raw_failed/stego/` instead of being deleted, and fresh
+  sessions were collected until all 233 Stego sessions succeeded.
+- Rebuilt the processed dataset and splits:
+
+  ```text
+  sessions : 466 (233 Normal + 233 Stego, all successful)
+  windows  : 1398 (699 / 699), X = [1398, 4, 128]
+  splits   : train 374 sessions / 1122 windows
+             val    46 sessions /  138 windows
+             test   46 sessions /  138 windows
+  ```
+
+- Regenerated `DATA_QUALITY_REPORT.md` (verdict `READY_FOR_CNN`),
+  `BASELINE_ANALYSIS.md`, `stats.json`, `build_summary.json` and the plots.
+  BER, frame error rate and CRC failure rate are all 0; no session overlap, no
+  duplicate sample, no NaN/Inf.
+- Rebuilt `raw/run_summary.json` as an aggregate of every session's
+  `metadata.json`, because the two parallel collection workers each overwrite
+  that file with their own run.
+- Recorded the whole procedure, the quarantined session ids and the remaining
+  limitations in `docs/experiments/dataset-scaleup-20260926.md`.
+
+Effect on the cWGAN-GP module: its 1000-training-window requirement is now
+met (1122 training windows). It is still not trainable because of the data
+interface mismatch documented in `docs/experiments/cwgan-results.md`.
+
 ## 2026-09-26 – consolidation and status review
 
 This pass did not change any algorithm, dataset or Docker definition.

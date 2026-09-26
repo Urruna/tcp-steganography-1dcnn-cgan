@@ -1,0 +1,25 @@
+{
+  "num_normal_sessions": 100,
+  "num_stego_sessions": 100,
+  "session_duration": 30,
+  "secret_size": 16,
+  "block_gap_ms": 20,
+  "random_seed": 42,
+  "normal_chunk_size": 1024,
+  "window_size": 128,
+  "val_ratio": 0.1,
+  "test_ratio": 0.1,
+  "split_seed": 42,
+  "session_id": "normal_000151",
+  "mode": "normal",
+  "label": 0,
+  "project_config_path": "config.yaml",
+  "ports": {
+    "proxy_a": 35815,
+    "proxy_b": 58035,
+    "server": 55959
+  },
+  "expected_equivalent_bits": 456,
+  "cover_sha256": "ad71e8f8bb210717aba0ad71d184cd3037972e01524dcb5a40ae74b48529753a",
+  "expected_duration_ms": 9120
+}

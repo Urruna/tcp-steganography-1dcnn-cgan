@@ -4,12 +4,12 @@ Verdict: **READY_FOR_CNN**
 
 ## 1 数据稳定性
 
-- X.shape: [138, 4, 128]
-- y.shape: [138]
-- class distribution: {'normal': 69, 'stego': 69}
-- train shape: [114, 4, 128]
-- val shape: [12, 4, 128]
-- test shape: [12, 4, 128]
+- X.shape: [1398, 4, 128]
+- y.shape: [1398]
+- class distribution: {'normal': 699, 'stego': 699}
+- train shape: [1122, 4, 128]
+- val shape: [138, 4, 128]
+- test shape: [138, 4, 128]
 - split overlaps: {'train_val': [], 'train_test': [], 'val_test': []}
 
 ## 2 800/1200 调制稳定性
@@ -24,18 +24,18 @@ Verdict: **READY_FOR_CNN**
 
 ## 4 Rule-based baseline
 
-- rule_any_800_1200: all=(accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=69/0/0/69)
-- rule_mean_length_le_1000: all=(accuracy=0.811594, precision=1.000000, recall=0.623188, F1=0.767857, CM(tn/fp/fn/tp)=69/0/26/43)
-- rule_majority_800_1200: all=(accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=69/0/0/69)
-- rule_any_800_1200: test=(accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=6/0/0/6)
-- rule_mean_length_le_1000: test=(accuracy=0.833333, precision=1.000000, recall=0.666667, F1=0.800000, CM(tn/fp/fn/tp)=6/0/2/4)
-- rule_majority_800_1200: test=(accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=6/0/0/6)
+- rule_any_800_1200: all=(accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=699/0/0/699)
+- rule_mean_length_le_1000: all=(accuracy=0.860515, precision=1.000000, recall=0.721030, F1=0.837905, CM(tn/fp/fn/tp)=699/0/195/504)
+- rule_majority_800_1200: all=(accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=699/0/0/699)
+- rule_any_800_1200: test=(accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=69/0/0/69)
+- rule_mean_length_le_1000: test=(accuracy=0.869565, precision=1.000000, recall=0.739130, F1=0.850000, CM(tn/fp/fn/tp)=69/0/18/51)
+- rule_majority_800_1200: test=(accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=69/0/0/69)
 
 ## 5 Traditional ML baseline
 
-- model=logistic_regression_summary_features, features=16, train=114, val=12, test=12
-- val: accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=6/0/0/6
-- test: accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=6/0/0/6
+- model=logistic_regression_summary_features, features=16, train=1122, val=138, test=138
+- val: accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=69/0/0/69
+- test: accuracy=1.000000, precision=1.000000, recall=1.000000, F1=1.000000, CM(tn/fp/fn/tp)=69/0/0/69
 
 ## 6 是否适合进入 1D-CNN
 

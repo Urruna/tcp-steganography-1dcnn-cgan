@@ -7,18 +7,18 @@
     "cumulative_bytes"
   ],
   "X_shape": [
-    138,
+    1398,
     4,
     128
   ],
   "y_shape": [
-    138
+    1398
   ],
-  "sessions_seen": 46,
-  "sessions_used": 46,
+  "sessions_seen": 466,
+  "sessions_used": 466,
   "skipped_sessions": [],
   "class_distribution": {
-    "normal": 69,
-    "stego": 69
+    "normal": 699,
+    "stego": 699
   }
 }

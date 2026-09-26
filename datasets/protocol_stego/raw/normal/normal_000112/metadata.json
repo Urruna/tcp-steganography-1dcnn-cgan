@@ -1,0 +1,57 @@
+{
+  "session_id": "normal_000112",
+  "label": 0,
+  "mode": "normal",
+  "timestamp": "2026-09-26T04:50:45-0700",
+  "timestamp_epoch": 1790423445.7451706,
+  "config": {
+    "num_normal_sessions": 100,
+    "num_stego_sessions": 100,
+    "session_duration": 30,
+    "secret_size": 16,
+    "block_gap_ms": 20,
+    "random_seed": 42,
+    "normal_chunk_size": 1024,
+    "window_size": 128,
+    "val_ratio": 0.1,
+    "test_ratio": 0.1,
+    "split_seed": 42,
+    "session_id": "normal_000112",
+    "mode": "normal",
+    "label": 0,
+    "project_config_path": "config.yaml",
+    "ports": {
+      "proxy_a": 50829,
+      "proxy_b": 43737,
+      "server": 60143
+    },
+    "expected_equivalent_bits": 456,
+    "cover_sha256": "dd75bf0a1675c4dbed2c0a4bf083d73b347e8d8b08a63cd96c6c3c62b9ed735a",
+    "expected_duration_ms": 9120
+  },
+  "success": true,
+  "metrics": {
+    "total_bits": null,
+    "bit_error_count": null,
+    "ber": null,
+    "frame_count": null,
+    "received_frame_count": null,
+    "frame_error_count": null,
+    "frame_error_rate": null,
+    "crc_failure_count": null,
+    "plaintext_match": null,
+    "cover_match": true,
+    "cover_bytes": 456000,
+    "ciphertext_bytes": null,
+    "duration_ms": 9587.36664999742,
+    "throughput_secret_Bps": null
+  },
+  "error_reason": null,
+  "files": {
+    "sender_jsonl": "sender.jsonl",
+    "receiver_jsonl": "receiver.jsonl",
+    "errors_jsonl": "errors.jsonl",
+    "sender_result": "sender_result.json",
+    "receiver_result": "receiver_result.json"
+  }
+}

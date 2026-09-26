@@ -93,7 +93,7 @@ Short version:
 - AES-256-GCM: Completed
 - Frame protocol / CRC / bitstream / reassembly: Completed
 - 800/1200 application-layer stego: Completed
-- Dataset (raw/processed/splits): Partial (23 Normal + 23 Stego sessions)
+- Dataset (raw/processed/splits): Partial (466 sessions: 233 Normal + 233 Stego, 1398 windows; Normal is still a fixed 1024 B write)
 - Rule-based + Logistic Regression baseline: Completed
 - 1D-CNN: Partial (implemented/trained in `src/1dcnn/`; preliminary metrics use a separate 168-window dataset with unverified session split)
 - cGAN: Partial (conditional WGAN-GP implemented in `src/cWGAN-GP/`; training blocked by data volume, no checkpoint and no result)
@@ -206,8 +206,8 @@ releases/dataset_release_v1/protocol_stego/processed/y.npy
 Current shape:
 
 ```text
-X.shape = [138, 4, 128]
-y.shape = [138]
+X.shape = [1398, 4, 128]
+y.shape = [1398]
 labels: 0 = Normal, 1 = Stego
 features:
   0 direction
@@ -219,13 +219,26 @@ features:
 Current session summary:
 
 ```text
-Normal sessions: 23, events: 10258
-Stego sessions:  23, events: 10488
-windows: 138 (69 Normal / 69 Stego)
+Normal sessions: 233, all successful
+Stego sessions:  233, all successful
+events (both):   210165
+windows:         1398 (699 Normal / 699 Stego)
+```
+
+Session-level split:
+
+```text
+train: 374 sessions, 1122 windows
+val:    46 sessions,  138 windows
+test:   46 sessions,  138 windows
 ```
 
 Do not re-split windows randomly: use the existing session-level split in
 `datasets/protocol_stego/splits/`.
+
+The dataset was grown from 46 to 466 sessions on 2026-09-26; see
+`docs/experiments/dataset-scaleup-20260926.md` for the exact commands, the
+eight quarantined Stego sessions and the recorded limitations.
 
 See `docs/dataset/dataset-overview.md`.
 
@@ -301,6 +314,7 @@ Existing experiment results:
 - `docs/experiments/newtry97-v0.2.md`
 - `docs/experiments/1dcnn-results.md`
 - `docs/experiments/cwgan-results.md`
+- `docs/experiments/dataset-scaleup-20260926.md`
 
 Current dataset quality verdict: `READY_FOR_CNN`.
 

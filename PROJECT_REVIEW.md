@@ -13,7 +13,7 @@ Windows 旧工作目录）合并后的真实状态写在一处。技术细节仍
 | --- | --- | --- |
 | GitHub 仓库 | `Urruna/tcp-steganography-1dcnn-cgan`，最新提交 `6840169`（2026-09-21） | 全量 clone 到 `projects/tcp-steganography`，工作区干净 |
 | Ubuntu621 虚拟机 | `/home/urruna/docker/tcp-lab`，1162 个文件，63 MB | 通过 VMware Tools 只读导出完整文件清单比对 |
-| Windows 旧目录 | `D:\C\work_DC`，1257 个文件，停在提交 `01f8304` | 与新克隆逐文件比对 |
+| Windows 旧目录 | `D:\C\work_DC`，原 1257 个文件，停在提交 `01f8304` | 与新克隆逐文件比对，之后按要求清理 |
 
 关于路径：请求里写的 `D:\C\work\_DC` **不存在**，真实的旧目录是 `D:\C\work_DC`。
 因此没有对它做任何删除。
@@ -121,20 +121,29 @@ Normal Traffic → Basic Stego → Dataset → 1D-CNN → cGAN → GAN-Stego →
 
 ## 4. 已确认的实验事实
 
-### 4.1 主数据集 `protocol_stego`
+### 4.1 主数据集 `protocol_stego`（2026-09-26 已扩容）
 
 ```text
-Normal session : 23      Stego session : 23      全部成功
-Normal 事件数   : 10258   Stego 事件数   : 10488
-窗口总数        : 138     Normal 69 / Stego 69
-X.shape = [138, 4, 128]   y.shape = [138]
+Normal session : 233     Stego session : 233     全部成功
+事件总数        : 210165
+窗口总数        : 1398    Normal 699 / Stego 699
+X.shape = [1398, 4, 128]  y.shape = [1398]
 
-按 session 划分：train 38 session / 114 窗口，val 4 / 12，test 4 / 12
+按 session 划分：train 374 session / 1122 窗口，
+                 val 46 / 138，test 46 / 138
 无 session 泄漏，无重复样本，无 NaN/Inf
 BER = 0，frame error rate = 0，CRC failure rate = 0
 ```
 
+数据量从 46 个 session 扩到 466 个 session，**训练集 1122 个窗口已经越过
+cWGAN-GP 要求的 1000 窗口门槛**。采集记录见
+`docs/experiments/dataset-scaleup-20260926.md`。
+
 质量报告的结论是 `READY_FOR_CNN`。
+
+扩容过程中有 8 个 Stego session 因 `length_out_of_range`
+（接收端把两次写入合并观测成 1600/2000 字节）失败，已移出数据集目录保存
+在虚拟机的 `protocol_stego/raw_failed/stego/`，并补采到 233/233 全部成功。
 
 但报告同时指出一个关键事实：**Normal 数据基本都是 1024 字节定长写入，
 Stego 是 800/1200 字节写入**。也就是说，当前检测器实际学到的是
@@ -173,13 +182,14 @@ Stego 是 800/1200 字节写入**。也就是说，当前检测器实际学到�
 
 **当前卡点（必须解决才能继续）**：
 
-1. 模块文档自己写明**至少需要 1000 个训练窗口**；当前只有 114 个。
-   实测在 114 窗口下 Critic / Generator loss 单调爆炸。
+1. ~~**至少需要 1000 个训练窗口**，当前只有 114 个。~~
+   **已于 2026-09-26 解决**：训练集现有 1122 个窗口。
+   注意方向：扩容只能解决"训不动"，不能解决下面的接口问题。
 2. 数据接口对不上：代码默认读
    `datasets/protocol_stego/real_train_X.npy`，但仓库里实际只有
    `datasets/protocol_stego/processed/windows.npz`。
 3. 代码假定长度通道已标准化（mean≈0, std≈1），但协议数据集存的是原始值
-   （direction ±1，length 800/1200），没有共享的 scaler。
+   （direction 恒为 1，length 800/1200），没有共享的 scaler。
 4. 文档中"1D-CNN 使用 `datasets/protocol_stego`"的说法与实现不符，
    1D-CNN 实际用的是 `src/1dcnn/data/` 的 168 窗口数据。
 
@@ -203,7 +213,7 @@ Stego 是 800/1200 字节写入**。也就是说，当前检测器实际学到�
 
 ### 5.2 Windows `D:\C\work_DC`
 
-是仓库在提交 `01f8304` 的本地副本（比 origin 落后一个提交），工作区干净。
+原本是仓库在提交 `01f8304` 的本地副本（比 origin 落后一个提交），工作区干净。
 相对新克隆多出 4 个文件，全部是有意忽略的：
 
 | 文件 | 大小 | 为什么不在仓库 |
@@ -212,6 +222,10 @@ Stego 是 800/1200 字节写入**。也就是说，当前检测器实际学到�
 | `releases/dataset_release_v1/.../data_quality_report.json` | 19.7 MB | 同上（发布包内的副本） |
 | `src/1dcnn/results/run.log` | 697 B | `*.log` 被忽略 |
 | `src/newtry97/logs/run_demo.log` | 288 B | `*.log` 被忽略 |
+
+2026-09-26 逐文件比对（1257 个文件，忽略行尾后只剩本次修改的 7 个文档不同）
+确认旧目录没有独有内容后，已按你的要求清空重复文件，**该目录现在只保留
+上面两份 `data_quality_report.json`**，以及扩容数据集的备份压缩包。
 
 ### 5.3 虚拟机里有、但仓库里没有的文件（逐条说明）
 
@@ -232,8 +246,10 @@ Stego 是 800/1200 字节写入**。也就是说，当前检测器实际学到�
 
 1. **两套数据集口径并存**，且 1D-CNN 的那套没有 session 索引 ——
    现有 0.92 的准确率在 session 级别上不可信。
-2. **数据量不足**：cGAN 需要 ≥1000 窗口，现在 114；数据集本身也远未到计划的每类 50 session。
-3. **cWGAN-GP 与数据管线接口不一致**（路径、标准化、区间常量）。
+2. ~~**数据量不足**：cGAN 需要 ≥1000 窗口，现在 114。~~
+   **已解决**：2026-09-26 扩容到 466 个 session、训练集 1122 窗口。
+3. **cWGAN-GP 与数据管线接口不一致**（路径、标准化、区间常量）——
+   这是现在唯一挡在 cGAN 训练前面的问题。
 4. **Normal 流量多样性不足**：几乎全是 1024 字节定长写入，与 Stego 的 800/1200
    形成"与实验目的无关"的人为差异，会让检测任务变得过于简单。
 5. 文档与实现存在若干不一致（project-overview 曾把 1D-CNN 写成"未实现"；
@@ -248,12 +264,14 @@ Stego 是 800/1200 字节写入**。也就是说，当前检测器实际学到�
 1. **统一数据集口径**：确定 `datasets/protocol_stego/` 为唯一权威数据集，
    把 1D-CNN 的训练/评估切到它的 session-level split 上；
    若要保留 168 窗口那套，必须补出它到 session 的映射。
-2. **扩充到 167 Normal + 167 Stego session**（≈1000+ 窗口），
+2. ~~**扩充到 167 Normal + 167 Stego session**（≈1000+ 窗口）。~~
+   **已完成（2026-09-26）**：实际扩到 233 + 233 = 466 个 session，
    固定 seed、每个 session 独立 metadata、保留原始 sender/receiver JSONL、
-   不覆盖现有 23+23。
-3. **修 cWGAN-GP 数据接口**：改读 `processed/windows.npz` 或补出
+   未覆盖原有 23+23。
+3. **修 cWGAN-GP 数据接口**（当前的 P0）：改读 `processed/windows.npz` 或补出
    `real_train_X.npy`/`real_train_y.npy`；确定长度通道是原始字节还是标准化值，
    并同步修改 `BIT0_RANGE` / `BIT1_RANGE`。
+4. **训练 cWGAN-GP 并记录 loss 曲线**：判定标准是两个 loss 在 ±5 内波动而不是爆炸。
 
 ### P1 —— 让结论站得住
 
@@ -274,11 +292,12 @@ Stego 是 800/1200 字节写入**。也就是说，当前检测器实际学到�
 
 ## 8. 需要你决定的事
 
-1. `D:\C\work_DC`（真实的旧目录）是否删除？建议先打包归档再删，
-   因为它是唯一保留 `data_quality_report.json` 和两个 `run.log` 的位置。
-2. 本次整理是否提交并推送到 GitHub？（按规则，push 需要你确认）
-3. `crypto/out/demo.key` 等密钥是否需要在虚拟机之外备份？
-4. 我为了核对只读地启动了 Ubuntu621，目前仍在运行。需要我关闭它吗？
+1. ~~`D:\C\work_DC` 是否删除？~~ 已按你的要求清理，详见第 5.2 节。
+2. 扩容结果已经写入 GitHub 仓库本地克隆并提交，**尚未 push**（按规则需要你确认）。
+3. `crypto/out/demo.key` 等密钥按你的要求暂不备份。
+4. Ubuntu621 虚拟机按你的要求保持运行。
+5. 待定：是否用扩容后的数据重建 `releases/dataset_release_v1/`
+   （它目前仍是 46 个 session 的旧快照）。
 
 ---
 

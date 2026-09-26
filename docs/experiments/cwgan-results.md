@@ -43,7 +43,7 @@ two sharp histogram spikes; two wide bands keep the bit decodable
 (non-overlapping bands → single threshold in Proxy-B) while flattening the
 histogram.
 
-## 3. Blocking issue: training data volume
+## 3. Training data volume
 
 The module README states a hard requirement of **at least 1000 training
 windows**, and documents an observed failure at the current size:
@@ -62,13 +62,16 @@ Current data availability:
 
 | Dataset | Training windows | Meets requirement |
 | --- | ---: | --- |
-| `datasets/protocol_stego/` | 114 (train split) | No |
+| `datasets/protocol_stego/` | 1122 (train split) | Yes, since 2026-09-26 |
 | `src/1dcnn/data/` | 117 (train split) | No |
 
-The module's stated target is 167 Normal + 167 Stego sessions ≈ 1000+ windows.
-The repository currently has 23 + 23 sessions.
+The dataset was scaled from 46 to 466 sessions on 2026-09-26 specifically to
+clear this barrier (`docs/experiments/dataset-scaleup-20260926.md`): the train
+split now holds 1122 windows, 699 Normal / 699 Stego overall.
 
-**No training run has been completed, so there is no cWGAN-GP result to report.**
+**No training run has been completed yet, so there is still no cWGAN-GP
+result to report.** The remaining blockers are the data interface issues in
+section 4, not the sample count.
 
 ## 4. Data interface inconsistencies (must be fixed before training)
 
@@ -90,8 +93,9 @@ module README describes.
 
 ## 5. What still has to happen
 
-1. Implement the P0 data-expansion task (≥167 + 167 sessions) so that the
-   1000-window requirement is met.
+1. ~~Implement the P0 data-expansion task (≥167 + 167 sessions) so that the
+   1000-window requirement is met.~~ **Done on 2026-09-26**: the train split
+   now holds 1122 windows (see `dataset-scaleup-20260926.md`).
 2. Reconcile the data interface: either export `real_train_X.npy` /
    `real_train_y.npy` into `datasets/protocol_stego/`, or point the loader at
    `processed/windows.npz`; then fix the band constants to match the actual
@@ -109,7 +113,7 @@ module README describes.
 
 ```text
 cGAN implementation     : present
-cGAN training           : blocked (data volume), no successful run
+cGAN training           : not run (interface mismatch), no successful run
 cGAN checkpoint         : none
 GAN-Stego data          : none
 GAN-Stego evaluation    : none

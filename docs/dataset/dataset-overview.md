@@ -44,19 +44,21 @@
 
 - Working location: `datasets/protocol_stego/`
 - Released copy: `releases/dataset_release_v1/protocol_stego/`
-- Raw normal sessions: 23
-- Raw stego sessions: 23
-- Normal events: 10258
-- Stego events: 10488
-- Processed windows: 138
-- Normal windows: 69
-- Stego windows: 69
+- Raw normal sessions: 233 (all successful)
+- Raw stego sessions: 233 (all successful)
+- Total events: 210165
+- Processed windows: 1398
+- Normal windows: 699
+- Stego windows: 699
+
+The dataset started at 23 + 23 sessions / 138 windows and was scaled up on
+2026-09-26; see `docs/experiments/dataset-scaleup-20260926.md`.
 
 Processed shape:
 
 ```text
-X.shape = [138, 4, 128]
-y.shape = [138]
+X.shape = [1398, 4, 128]
+y.shape = [1398]
 ```
 
 Labels:
@@ -69,9 +71,9 @@ Labels:
 Session-level split:
 
 ```text
-train: 38 sessions, 114 windows
-val:    4 sessions, 12 windows
-test:   4 sessions, 12 windows
+train: 374 sessions, 1122 windows
+val:    46 sessions,  138 windows
+test:   46 sessions,  138 windows
 ```
 
 Validation:
@@ -82,6 +84,12 @@ Validation:
 - BER = 0;
 - frame error rate = 0;
 - CRC failure rate = 0.
+
+Length distribution (documented limitation): Normal events are all exactly
+1024 B, Stego events are exactly 800 B or 1200 B. The `direction` channel is
+constant 1 for both classes. A detector trained on this pair therefore learns
+the 800/1200 modulation signature rather than general covert-channel
+detectability.
 
 ## 5. Not Yet Generated
 

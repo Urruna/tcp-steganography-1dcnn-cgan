@@ -1,0 +1,10 @@
+{
+  "session_id": "normal_000106",
+  "peer": "('127.0.0.1', 36480)",
+  "mode": "normal",
+  "success": true,
+  "bytes_forward": 456000,
+  "events_forward": 445,
+  "forward_events": 445,
+  "reverse_events": 0
+}

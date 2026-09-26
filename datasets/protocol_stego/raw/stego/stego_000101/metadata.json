@@ -1,0 +1,58 @@
+{
+  "session_id": "stego_000101",
+  "label": 1,
+  "mode": "stego",
+  "timestamp": "2026-09-26T04:49:15-0700",
+  "timestamp_epoch": 1790423355.6070566,
+  "config": {
+    "num_normal_sessions": 100,
+    "num_stego_sessions": 100,
+    "session_duration": 30,
+    "secret_size": 16,
+    "block_gap_ms": 20,
+    "random_seed": 42,
+    "normal_chunk_size": 1024,
+    "window_size": 128,
+    "val_ratio": 0.1,
+    "test_ratio": 0.1,
+    "split_seed": 42,
+    "session_id": "stego_000101",
+    "mode": "stego",
+    "label": 1,
+    "project_config_path": "config.yaml",
+    "ports": {
+      "proxy_a": 59719,
+      "proxy_b": 42617,
+      "server": 39669
+    },
+    "key_derivation": "PBKDF2-HMAC-SHA256(default salt newtry97-crypto-v1, 200000 iterations)",
+    "key_passphrase_pattern": "<random_seed>:<session_id>:newtry97",
+    "secret_sha256": "26fb562d3994c9e8486f528c8ba9ffc2afc3f9c5bd2e15d43ca5f9a5df17f8f1",
+    "expected_duration_ms": 9120
+  },
+  "success": true,
+  "metrics": {
+    "total_bits": 456,
+    "bit_error_count": 0,
+    "ber": 0.0,
+    "frame_count": 1,
+    "received_frame_count": 1,
+    "frame_error_count": 0,
+    "frame_error_rate": 0.0,
+    "crc_failure_count": 0,
+    "plaintext_match": true,
+    "cover_match": true,
+    "cover_bytes": 442400,
+    "ciphertext_bytes": 46,
+    "duration_ms": 9636.62448299874,
+    "throughput_secret_Bps": 1.6603324149683056
+  },
+  "error_reason": null,
+  "files": {
+    "sender_jsonl": "sender.jsonl",
+    "receiver_jsonl": "receiver.jsonl",
+    "errors_jsonl": "errors.jsonl",
+    "sender_result": "sender_result.json",
+    "receiver_result": "receiver_result.json"
+  }
+}
