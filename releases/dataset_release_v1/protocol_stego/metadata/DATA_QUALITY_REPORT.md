@@ -1,6 +1,6 @@
-# DATA QUALITY REPORT
+# 数据质量报告
 
-Conclusion: **READY_FOR_CNN**
+结论：**READY_FOR_CNN**
 
 ## 1 数据集概况
 

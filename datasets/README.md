@@ -1,6 +1,6 @@
-# Datasets
+# 数据集目录
 
-This directory separates datasets by source.
+本目录按来源区分数据集。
 
 ```text
 datasets/
@@ -8,17 +8,15 @@ datasets/
 │   ├── docker_chain_smoke/
 │   └── baseline_lenmix_v1/
 ├── normal_v1/
-└── protocol_stego/          # pointer/README in phase 1
+└── protocol_stego/
 ```
 
-Important:
+注意事项：
 
-- Historical Normal and protocol Normal are different experiments.
-- Do not mix them without an explicit experiment design.
-- Raw data must not be modified, reordered, or re-encoded.
-- The current protocol_stego working dataset is kept in
-  `datasets/protocol_stego/`.
-- The released copy is in `releases/dataset_release_v1/`.
-- The 1D-CNN module under `src/1dcnn/` currently ships its own separate
-  168-window dataset in `src/1dcnn/data/`; that dataset has no exact overlap
-  with `datasets/protocol_stego/` and must not be silently merged with it.
+- 历史 Normal 数据与 protocol_stego 的 Normal 是两类不同实验；
+- 没有明确的实验设计，不要把它们混用；
+- 原始数据不得修改、重排或重新编码；
+- 当前 protocol_stego 的工作数据集放在 `datasets/protocol_stego/`；
+- 发布副本放在 `releases/dataset_release_v1/`；
+- `src/1dcnn/` 目前自带一套独立的 168 窗口数据集（`src/1dcnn/data/`），
+  它与 `datasets/protocol_stego/` 没有精确重叠，**不要静默合并**。

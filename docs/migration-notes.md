@@ -1,17 +1,17 @@
-# Migration Notes
+# 迁移记录
 
-This file records differences found while organizing the repository.
+本文件记录在整理仓库过程中发现的各种差异。
 
-## Git History
+## Git 历史
 
-- Windows `D:\C\work_DC\.git`: not present.
-- Ubuntu `/home/urruna/docker/tcp-lab`: no `.git` directory.
+- Windows `D:\C\work_DC\.git`：当时不存在。
+- Ubuntu `/home/urruna/docker/tcp-lab`：没有 `.git` 目录。
 
-No commit history was available for comparison.
+当时没有可用于比对的提交历史。
 
-## Compared Directories
+## 比对过的目录
 
-The following directories existed in both Windows and Ubuntu:
+以下目录在 Windows 与 Ubuntu 两边都存在：
 
 ```text
 crypto/
@@ -20,14 +20,14 @@ newtry97/
 protocol_stego/
 ```
 
-A SHA256 manifest comparison was performed (Ubuntu `sha256sum`, Windows
-Python `hashlib`).
+比对方式是 SHA256 清单（Ubuntu 用 `sha256sum`，Windows 用 Python
+`hashlib`）。
 
-## Files Only in Ubuntu
+## 只在 Ubuntu 存在的文件
 
 - `crypto/out/crypto_selftest.json`
-- `crypto/out/*.enc` demo ciphertexts
-- `newtry97/__pycache__/*` (cache, not to be committed)
+- `crypto/out/*.enc` 演示密文
+- `newtry97/__pycache__/*`（缓存，不提交）
 - `newtry97/logs/docker917/proxy_a_events.csv`
 - `newtry97/logs/docker917/proxy_b_events.csv`
 - `newtry97/logs/docker917/recovered.txt`
@@ -45,16 +45,16 @@ Python `hashlib`).
 - `protocol_stego/out/demo_key.bin`
 - `protocol_stego/out/server_result.json`
 
-Actions:
+处理方式：
 
-- Docker917 logs copied to `src/newtry97/logs/docker917/`.
-- Normal files copied to `datasets/normal_v1/files/`.
-- Normal CSV data copied to `datasets/normal_v1/logs/` (content identical,
-  verified by SHA256).
-- Crypto self-test artifacts copied to `docs/experiments/crypto-selftest/`;
-  `demo.key` was not copied into the repository.
+- Docker917 日志复制到 `src/newtry97/logs/docker917/`；
+- normal 文件复制到 `datasets/normal_v1/files/`；
+- normal 的 CSV 数据复制到 `datasets/normal_v1/logs/`（内容一致，已用
+  SHA256 校验）；
+- 加密模块自检产物复制到 `docs/experiments/crypto-selftest/`；
+  `demo.key` 没有复制进仓库。
 
-## Files Only in Windows
+## 只在 Windows 存在的文件
 
 - `normal/client_events.csv`
 - `normal/dataset_summary.json`
@@ -69,18 +69,17 @@ Actions:
 - `protocol_stego/docs/plots/.gitkeep`
 - `protocol_stego/scripts/build_dataset_release.py`
 
-Notes:
+说明：
 
-- The `normal/*.csv` files in Windows are byte-identical to the
-  `normal/logs/*.csv` files in Ubuntu (SHA256 equality confirmed).
-- `build_dataset_release.py` is a Windows-side tool not present in Ubuntu;
-  copied to `tools/build_release/`.
-- `normalTraffic.zip` content/use was not confirmed; it is preserved but
-  should be reviewed before committing to a release.
+- Windows 下的 `normal/*.csv` 与 Ubuntu 下的 `normal/logs/*.csv` 逐字节
+  相同（已用 SHA256 确认）；
+- `build_dataset_release.py` 是只在 Windows 侧存在的工具，已复制到
+  `tools/build_release/`；
+- `normalTraffic.zip` 的用途当时未确认，已按用户要求删除（确认无用）。
 
-## Content Differences for Shared Paths
+## 同名路径但内容不同
 
-The following paths existed in both locations but had different hashes:
+以下路径两边都存在，但哈希不同：
 
 ```text
 protocol_stego/data/secret.txt
@@ -92,28 +91,25 @@ protocol_stego/out/recovered_secret.txt
 protocol_stego/out/sender_result.json
 ```
 
-These differences are caused by different demo runs (different random
-secret/key or later re-runs). No file was overwritten by this migration;
-both originals remain in their respective environments.
+差异来自不同的 demo 运行（随机秘密 / 密钥不同，或后续重跑）。
+迁移过程中没有覆盖任何文件，两边原始文件都保留在各自环境中。
 
-## Path Decisions
+## 路径决策
 
-- `src/crypto` and `src/protocol_stego` remain siblings so
-  `core/crypto_adapter.py` can still resolve `../crypto/crypto.py`.
-- The working dataset was moved from `src/protocol_stego/dataset` to
-  `datasets/protocol_stego` so code and data are clearly separated.
-  The container mount target remains `/work/protocol_stego/dataset`, so
-  scripts inside the container keep the same runtime paths.
-- `releases/dataset_release_v1/` is a delivery artifact, not runtime source.
-- Historical and protocol datasets remain separated.
-- The Ubuntu runtime tree `/home/urruna/docker/tcp-lab` was intentionally
-  left in place. It was used as the source for Ubuntu-only files, which were
-  copied into this repository. No Ubuntu experiment data was deleted or
-  moved.
-- An empty root directory `protocol_stego/` may remain after the move because
-  a Windows process temporarily held it open; it contains no files and is
-  not tracked by Git.
-- `normalTraffic.zip` was removed at the user's request; it was confirmed
-  unused.
-- The large `data_quality_report.json` files are intentionally not carried in
-  the Git repository; they remain on disk and in the release archive.
+- `src/crypto` 与 `src/protocol_stego` 保持同级，这样
+  `core/crypto_adapter.py` 仍能解析 `../crypto/crypto.py`；
+- 工作数据集从 `src/protocol_stego/dataset` 移到
+  `datasets/protocol_stego`，以便代码与数据清晰分离。容器内挂载目标仍是
+  `/work/protocol_stego/dataset`，因此容器内脚本的运行路径不变；
+- `releases/dataset_release_v1/` 是交付产物，不是运行时源码；
+- 历史数据与协议数据集保持隔离；
+- Ubuntu 运行目录 `/home/urruna/docker/tcp-lab` 被有意保留：它被用作
+  Ubuntu 独有文件的来源，这些文件已复制进本仓库。没有删除或移动任何
+  Ubuntu 实验数据。
+
+## 其他
+
+- 大的 `data_quality_report.json` 文件有意不放进 Git 仓库：它们仍保留在
+  磁盘上，以及发布压缩包中。
+- 2026-09-26 起，工作数据集已扩容到 466 个 session，详见
+  `docs/experiments/dataset-scaleup-20260926.md`。

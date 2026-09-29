@@ -1,6 +1,6 @@
-# Workflow
+# 工作流
 
-## Target Workflow (from `new_727.md`)
+## 目标工作流（来自 `new_727.md`）
 
 ```text
 Normal Traffic
@@ -18,40 +18,40 @@ GAN-Stego
 Evaluation
 ```
 
-## Current Completion
+## 当前完成度
 
-| Stage | Status | Evidence |
+| 阶段 | 状态 | 证据 |
 | --- | --- | --- |
-| Normal Traffic | Partial | historical Docker normal, `normal_v1`, 23 protocol Normal sessions |
-| Basic Stego | Completed | 800/1200 length modulation, 23 Stego sessions |
-| Dataset | Partial | 466 sessions, 1398 windows, session-level split, quality report |
-| 1D-CNN | Partial | implemented/trained in `src/1dcnn/`; preliminary metrics use a separate 168-window dataset whose session split is unverified |
-| cGAN | Partial | code in `src/cWGAN-GP/`; training blocked by data volume, no checkpoint or result |
-| GAN-Stego | Not Implemented | no generator and no data |
-| Evaluation | Partial | rule-based and Logistic Regression baselines only |
+| Normal Traffic | 部分完成 | 历史 Docker normal、`normal_v1`、protocol_stego 的 233 个 Normal session |
+| Basic Stego | 已完成 | 800/1200 长度调制，233 个 Stego session，BER = 0 |
+| Dataset | 部分完成 | 466 个 session、1398 个窗口、session 级划分、质量报告 |
+| 1D-CNN | 部分完成 | `src/1dcnn/` 中已实现并训练；初步指标使用的是另一套 168 窗口数据，session 划分未验证 |
+| cGAN | 部分完成 | `src/cWGAN-GP/` 有代码；数据量门槛已满足，但训练尚未跑通，无 checkpoint、无结果 |
+| GAN-Stego | 未实现 | 没有生成器，也没有数据 |
+| Evaluation | 部分完成 | 目前只有规则基线与逻辑回归基线 |
 
-## Data Flow
+## 数据流
 
 ```text
-plaintext
+明文
  → AES-256-GCM
- → ciphertext
- → frame
- → bitstream
- → 800/1200 application-layer length modulation
+ → 密文
+ → 帧封装
+ → 比特流
+ → 800/1200 应用层长度调制
  → TCP
- → Proxy-B length recovery
- → frame decode / CRC / reassembly
- → AES-256-GCM decrypt
+ → Proxy-B 长度恢复
+ → 帧解码 / CRC / 重组
+ → AES-256-GCM 解密
 ```
 
-## Analysis Flow
+## 分析流
 
 ```text
-raw session JSONL
- → observed_length event stream
- → 128-event windows
+原始 session JSONL
+ → observed_length 事件流
+ → 128 事件窗口
  → X = [N, 4, 128]
- → session-level train/val/test
- → rule-based / Logistic Regression / future CNN
+ → session 级 train/val/test
+ → 规则 / 逻辑回归 / 后续 CNN
 ```

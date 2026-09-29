@@ -1,66 +1,66 @@
-# DATA DICTIONARY
+# 数据字典
 
-## Protocol-Stego Processed Data
+## Protocol-Stego 处理后数据
 
 ### X.npy
 
-- Meaning: fixed-length event windows
-- Type: float32
-- Shape: `[N, 4, 128]`
-- Feature order:
-  - channel 0: `direction`
-  - channel 1: `length`
-  - channel 2: `inter_arrival_time`
-  - channel 3: `cumulative_bytes`
+- 含义：定长事件窗口
+- 类型：float32
+- 形状：`[N, 4, 128]`
+- 特征顺序：
+  - 通道 0：`direction`
+  - 通道 1：`length`
+  - 通道 2：`inter_arrival_time`
+  - 通道 3：`cumulative_bytes`
 
 ### y.npy
 
-- Meaning: window label
-- Type: int64
-- Shape: `[N]`
-- Values: `0 = Normal`, `1 = Stego`
+- 含义：窗口标签
+- 类型：int64
+- 形状：`[N]`
+- 取值：`0 = Normal`，`1 = Stego`
 
-## Fields
+## 字段说明
 
-| Field | Meaning | Type | Unit | Source | Used by CNN | Stego only | Raw / Processed |
+| 字段 | 含义 | 类型 | 单位 | 来源 | CNN 是否使用 | 仅 Stego | 原始 / 处理后 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `session_id` | Unique id of one complete experiment session | string | - | metadata.json / JSONL | No (tracking only) | No | raw + index |
-| `label` | `0=Normal`, `1=Stego` | int | - | metadata.json | Yes (target y) | No | raw + processed index |
-| `mode` | `normal` or `stego` | string | - | metadata.json | No | No | raw |
-| `timestamp` | Event time | float | seconds | sender/receiver JSONL | Indirectly (gap) | No | raw |
-| `direction` | `forward` = client→server, `reverse` = server→client | string/int | - | JSONL; +1/-1 in processed | Yes, channel 0 | No | raw + processed |
-| `length` | Observed application-layer event length | int | bytes | receiver.jsonl `observed_length` | Yes, channel 1 | No | raw + processed |
-| `inter_arrival_time` | Time since previous event in the same session | float | seconds | computed from timestamp | Yes, channel 2 | No | processed |
-| `cumulative_bytes` | Cumulative bytes in the current direction up to this event | int | bytes | computed | Yes, channel 3 | No | processed |
-| `target_length` | Proxy-A intended application-layer write length | int | bytes | sender.jsonl | No | Yes | raw |
-| `actual_write_length` | Proxy-A actual `sendall()` length | int | bytes | sender.jsonl | Analysis / audit | Yes | raw |
-| `observed_length` | Proxy-B actual `recv()` length | int | bytes | receiver.jsonl | Yes (becomes `length`) | Raw also exists in Normal | raw |
-| `bit` | Encoded bit before modulation | int | 0/1 | sender.jsonl | No | Yes | raw |
-| `frame_id` | Protocol frame id | int | - | sender/receiver | No | Yes | raw |
-| `crc_status` | Frame CRC status | string | - | receiver.jsonl | No | Yes | raw |
+| `session_id` | 一次完整实验 session 的唯一标识 | string | - | metadata.json / JSONL | 否（仅用于追踪） | 否 | raw + index |
+| `label` | `0=Normal`，`1=Stego` | int | - | metadata.json | 是（作为目标 y） | 否 | raw + processed index |
+| `mode` | `normal` 或 `stego` | string | - | metadata.json | 否 | 否 | raw |
+| `timestamp` | 事件时间 | float | 秒 | sender/receiver JSONL | 间接（用于间隔） | 否 | raw |
+| `direction` | `forward` = client→server，`reverse` = server→client | string/int | - | JSONL；处理后为 +1/-1 | 是，通道 0 | 否 | raw + processed |
+| `length` | 观测到的应用层事件长度 | int | 字节 | receiver.jsonl 的 `observed_length` | 是，通道 1 | 否 | raw + processed |
+| `inter_arrival_time` | 距同一 session 内上一事件的时间 | float | 秒 | 由 timestamp 计算 | 是，通道 2 | 否 | processed |
+| `cumulative_bytes` | 到该事件为止当前方向的累积字节数 | int | 字节 | 计算得到 | 是，通道 3 | 否 | processed |
+| `target_length` | Proxy-A 计划的应用层写入长度 | int | 字节 | sender.jsonl | 否 | 是 | raw |
+| `actual_write_length` | Proxy-A 实际 `sendall()` 的长度 | int | 字节 | sender.jsonl | 分析 / 审计用 | 是 | raw |
+| `observed_length` | Proxy-B 实际 `recv()` 读到的长度 | int | 字节 | receiver.jsonl | 是（成为 `length`） | Normal 中也有原始值 | raw |
+| `bit` | 调制前要编码的比特 | int | 0/1 | sender.jsonl | 否 | 是 | raw |
+| `frame_id` | 协议帧编号 | int | - | sender/receiver | 否 | 是 | raw |
+| `crc_status` | 帧 CRC 状态 | string | - | receiver.jsonl | 否 | 是 | raw |
 
-## Important Distinction
+## 重要区分
 
-`actual_write_length` and `observed_length` are stored separately.
+`actual_write_length` 与 `observed_length` 是分开保存的。
 
 ```text
-Proxy-A sendall length  !=  necessarily equal to
-Proxy-B recv length
+Proxy-A 的 sendall 长度  不一定等于
+Proxy-B 的 recv 长度
 ```
 
-TCP may segment, coalesce, or buffer. The processed feature `length` uses
-`observed_length`, not `actual_write_length`.
+TCP 可能分段、合并或缓冲。处理后的特征 `length` 使用的是
+`observed_length`，不是 `actual_write_length`。
 
-## Historical Normal Fields
+## 历史 Normal 数据字段
 
-Historical data is CSV, not the JSONL schema above. Fields are:
+历史数据是 CSV，不是上面的 JSONL 结构。字段为：
 
 ```text
 timestamp, proxy_name, session_id, direction, event_index,
 byte_length, inter_event_gap_ms
 ```
 
-and for `baseline_lenmix_v1` additionally:
+`baseline_lenmix_v1` 还额外包含：
 
 ```text
 experiment_id

@@ -1,8 +1,8 @@
 # newtry97
 
-Independent v0.2 frame protocol and write-splitting steganography demo.
+独立的 v0.2 帧协议与写拆分（write-splitting）隐写演示。
 
-Frame format:
+帧格式：
 
 ```text
 Preamble(32 bit) | Version+Reserved(8 bit)
@@ -10,21 +10,19 @@ Preamble(32 bit) | Version+Reserved(8 bit)
 | Payload | CRC-16(16 bit)
 ```
 
-Stego strategy:
+隐写策略：
 
 ```text
-bit 0 → one write
-bit 1 → split into two writes
+比特 0 → 一次写入
+比特 1 → 拆成两次写入
 ```
 
-This is different from the 800/1200 length modulation in
-`src/protocol_stego/`.
+它与 `src/protocol_stego/` 的 800/1200 长度调制不是同一种策略。
 
-Run:
+运行：
 
 ```bash
 python3 run_demo.py
 ```
 
-Container demo logs from the earlier container run are under
-`logs/docker917/`.
+更早那次容器运行的演示日志在 `logs/docker917/` 下。

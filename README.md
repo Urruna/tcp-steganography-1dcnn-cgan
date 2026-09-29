@@ -1,108 +1,101 @@
-# Authorized TCP Steganography Lab
+# 授权环境下的 TCP 流量隐写实验
 
-## Project Overview
+## 项目简介
 
-This repository collects the current results of a closed, authorized
-laboratory project that studies:
+本仓库汇总了一个封闭授权实验项目目前的全部成果，研究内容包括：
 
-- normal TCP traffic forwarded through two proxies;
-- secret data transport over the same proxy chain;
-- application-layer traffic feature modulation;
-- dataset construction for later 1D-CNN / cGAN detection experiments.
+- 经两级代理转发的正常 TCP 流量；
+- 在同一条代理链上传输秘密数据；
+- 应用层流量特征调制；
+- 为后续 1D-CNN / cGAN 检测实验构建数据集。
 
-The project is **not** a production system and must only be used in an
-authorized experimental environment.
+本项目**不是**生产系统，只能在授权的实验环境中使用。
 
-## Research Goal
+## 研究目标
 
-The long-term goal is to study the trade-off between:
+长期目标是研究以下四者之间的权衡关系：
 
 ```text
-secret payload capacity
+秘密载荷容量
         ↔
-reliable delivery (BER / FER)
+可靠交付（BER / FER）
         ↔
-network performance (latency / throughput)
+网络性能（时延 / 吞吐）
         ↔
-detectability (1D-CNN / cGAN experiments)
+可检测性（1D-CNN / cGAN 实验）
 ```
 
-Encryption, steganography, and GAN-based feature optimization are three
-different layers and must not be confused:
+加密、隐写与 GAN 特征优化是三个不同的层次，不能混为一谈：
 
-| Layer | Solves |
+| 层次 | 解决的问题 |
 | --- | --- |
-| AES-256-GCM | content confidentiality |
-| application-layer length modulation | hiding the secret transmission |
-| cGAN (planned) | making modulated traffic look closer to normal traffic |
+| AES-256-GCM | 内容看不懂 |
+| 应用层长度调制 | 看不出有秘密通信 |
+| cGAN（规划中） | 让调制后的流量分布更接近正常流量 |
 
-## Architecture
+## 整体架构
 
 ```text
 Client → Proxy-A → Proxy-B → Server
               ↘       ↙
-           logs / datasets
+           日志 / 数据集
                   ↓
-             Analysis
+               分析
 ```
 
-Current implemented stacks:
+当前已实现的技术栈：
 
-1. `src/tcp_lab/` – original Docker 4-container TCP echo chain.
-2. `src/normal_file_transfer/` – Docker file-download chain used for normal
-   traffic.
-3. `src/crypto/` – AES-256-GCM module.
-4. `src/newtry97/` – v0.2 frame protocol and write-splitting demo.
-5. `src/protocol_stego/` – current protocol, 800/1200 stego, dataset and
-   experiment scripts.
+1. `src/tcp_lab/` —— 最早的 Docker 四容器 TCP echo 链。
+2. `src/normal_file_transfer/` —— 用正常流量采集数据的 Docker 文件下载链。
+3. `src/crypto/` —— AES-256-GCM 加密模块。
+4. `src/newtry97/` —— v0.2 帧协议与写拆分（write-splitting）演示。
+5. `src/protocol_stego/` —— 当前使用的协议、800/1200 隐写、数据集与实验脚本。
 
-## Network Topology
+## 网络拓扑
 
-### Base Docker chain
+### 基础 Docker 链
 
 ```text
 client → proxy_a:9001 → proxy_b:9002 → server:9003
 ```
 
-Networks:
+网络：
 
 ```text
-client_net, backbone_net, server_net   (internal)
+client_net, backbone_net, server_net   （internal）
 ```
 
-### Current protocol_stego experiment
+### 当前 protocol_stego 实验
 
 ```text
 client → proxy_a:9101 → proxy_b:9102 → server:9103
 ```
 
-Important: `src/protocol_stego/compose.yaml` currently starts a single
-`tests` container. The four-node flow is simulated in-process by
-`examples/demo_secret_transfer.py` and `scripts/session_runner.py`.
+注意：`src/protocol_stego/compose.yaml` 目前只启动一个 `tests` 容器，
+四节点流程由 `examples/demo_secret_transfer.py` 和
+`scripts/session_runner.py` 在进程内模拟。
 
-See `docs/architecture/network-topology.md`.
+详见 `docs/architecture/network-topology.md`。
 
-## Current Status
+## 当前状态
 
-See `PROJECT_STATUS.md` for the complete table.
+完整状态表见 `PROJECT_STATUS.md`，简要版如下：
 
-Short version:
+- Docker 基础链路：已完成
+- 正常流量采集：部分完成
+- AES-256-GCM：已完成
+- 帧协议 / CRC / 比特流 / 重组：已完成
+- 800/1200 应用层隐写：已完成
+- 数据集（raw / processed / splits）：部分完成（466 个 session：233 Normal + 233 Stego，1398 个窗口；Normal 仍是固定 1024 字节写入）
+- 规则基线与逻辑回归基线：已完成
+- 1D-CNN：部分完成（`src/1dcnn/` 中已实现并训练；但现有指标用的是另一套 168 窗口数据，session 划分未验证）
+- cGAN：部分完成（`src/cWGAN-GP/` 已实现条件 WGAN-GP；训练尚未跑通，无 checkpoint、无结果）
+- GAN-Stego：未实现
 
-- Docker base chain: Completed
-- Normal traffic collection: Partial
-- AES-256-GCM: Completed
-- Frame protocol / CRC / bitstream / reassembly: Completed
-- 800/1200 application-layer stego: Completed
-- Dataset (raw/processed/splits): Partial (466 sessions: 233 Normal + 233 Stego, 1398 windows; Normal is still a fixed 1024 B write)
-- Rule-based + Logistic Regression baseline: Completed
-- 1D-CNN: Partial (implemented/trained in `src/1dcnn/`; preliminary metrics use a separate 168-window dataset with unverified session split)
-- cGAN: Partial (conditional WGAN-GP implemented in `src/cWGAN-GP/`; training blocked by data volume, no checkpoint and no result)
-- GAN-Stego: Not Implemented
+仓库、Ubuntu6.21 虚拟机与本地旧目录三个来源的合并说明见
+`PROJECT_REVIEW.md`。
 
-For a consolidated Chinese overview of all three sources (repository,
-Ubuntu6.21 VM, local working copy), see `PROJECT_REVIEW.md`.
-
-## Repository Structure
+## 仓库结构
 
 ```text
 .
@@ -140,37 +133,37 @@ Ubuntu6.21 VM, local working copy), see `PROJECT_REVIEW.md`.
     └── dataset_release_v1.zip
 ```
 
-## Quick Start
+## 快速开始
 
-### 1. Base Docker TCP chain
+### 1. 基础 Docker TCP 链
 
 ```bash
 cd src/tcp_lab
 docker compose up
 ```
 
-Expected client output:
+客户端预期输出：
 
 ```text
 [client] received: hello network
 [client] PASS: returned payload matches sent payload
 ```
 
-### 2. Normal file-transfer chain
+### 2. 正常文件下载链
 
 ```bash
 cd src/normal_file_transfer
 docker compose up --abort-on-container-exit --exit-code-from client
 ```
 
-### 3. Crypto self-test
+### 3. 加密模块自检
 
 ```bash
 cd src/crypto
 docker compose up --build
 ```
 
-### 4. protocol_stego tests and demo
+### 4. protocol_stego 测试与端到端演示
 
 ```bash
 cd src/protocol_stego
@@ -179,23 +172,26 @@ docker compose run --rm tests python -m unittest discover -s tests -v
 docker compose run --rm tests python examples/demo_secret_transfer.py
 ```
 
-### 5. Re-run the dataset pipeline
+### 5. 重跑数据集管线
+
+注意：运行入口必须用模块方式 `python -m`，直接写 `python scripts/xxx.py`
+会因 `sys.path` 不含项目根目录而报 `ModuleNotFoundError`。
 
 ```bash
 cd src/protocol_stego
-docker compose run --rm tests python scripts/run_experiment.py \
+docker compose run --rm tests python -m scripts.run_experiment \
   --mode both --normal 20 --stego 20 --seed 42 \
   --secret-size 16 --block-gap-ms 20 --window-size 128
-docker compose run --rm tests python scripts/dataset_builder.py --window-size 128
-docker compose run --rm tests python scripts/split_dataset.py
-docker compose run --rm tests python scripts/dataset_stats.py
-docker compose run --rm tests python scripts/data_quality_report.py
-docker compose run --rm tests python scripts/baseline_analysis.py
+docker compose run --rm tests python -m scripts.dataset_builder --window-size 128
+docker compose run --rm tests python -m scripts.split_dataset
+docker compose run --rm tests python -m scripts.dataset_stats
+docker compose run --rm tests python -m scripts.data_quality_report
+docker compose run --rm tests python -m scripts.baseline_analysis
 ```
 
-## Dataset
+## 数据集
 
-Main machine-learning dataset:
+主机器学习数据集：
 
 ```text
 datasets/protocol_stego/processed/windows.npz
@@ -203,99 +199,99 @@ releases/dataset_release_v1/protocol_stego/processed/X.npy
 releases/dataset_release_v1/protocol_stego/processed/y.npy
 ```
 
-Current shape:
+当前形状：
 
 ```text
 X.shape = [1398, 4, 128]
 y.shape = [1398]
-labels: 0 = Normal, 1 = Stego
-features:
-  0 direction
-  1 length
-  2 inter_arrival_time
-  3 cumulative_bytes
+标签：0 = Normal，1 = Stego
+特征：
+  0 direction              方向
+  1 length                 数据块长度
+  2 inter_arrival_time     相邻事件间隔
+  3 cumulative_bytes       累积字节数
 ```
 
-Current session summary:
+当前 session 概况：
 
 ```text
-Normal sessions: 233, all successful
-Stego sessions:  233, all successful
-events (both):   210165
-windows:         1398 (699 Normal / 699 Stego)
+Normal session：233，全部成功
+Stego session： 233，全部成功
+事件总数：      210165
+窗口总数：      1398（699 Normal / 699 Stego）
 ```
 
-Session-level split:
+按 session 划分：
 
 ```text
-train: 374 sessions, 1122 windows
-val:    46 sessions,  138 windows
-test:   46 sessions,  138 windows
+train：374 个 session，1122 个窗口
+val：   46 个 session， 138 个窗口
+test：  46 个 session， 138 个窗口
 ```
 
-Do not re-split windows randomly: use the existing session-level split in
-`datasets/protocol_stego/splits/`.
+不要随机重划分窗口，必须使用 `datasets/protocol_stego/splits/` 中已有的
+session 级划分。
 
-The dataset was grown from 46 to 466 sessions on 2026-09-26; see
-`docs/experiments/dataset-scaleup-20260926.md` for the exact commands, the
-eight quarantined Stego sessions and the recorded limitations.
+数据集在 2026-09-26 从 46 个 session 扩到 466 个 session，具体命令、
+8 个被隔离的 Stego session 以及仍然存在的局限见
+`docs/experiments/dataset-scaleup-20260926.md`。
 
-See `docs/dataset/dataset-overview.md`.
+详见 `docs/dataset/dataset-overview.md`。
 
-## Encryption
+## 加密
 
-Implementation:
+实现位置：
 
 ```text
 src/crypto/crypto.py
 src/crypto/crypto_tool.py
 ```
 
-Algorithm: AES-256-GCM.
+算法：AES-256-GCM。
 
-Format:
+数据格式：
 
 ```text
 Header(1B) + Flags(1B) + Nonce(12B) + Ciphertext + Tag(16B)
 ```
 
-Fixed overhead: 30 bytes.
+固定开销 30 字节。
 
-See `docs/crypto/aes-256-gcm.md`.
+详见 `docs/crypto/aes-256-gcm.md`。
 
-## Protocol
+## 协议
 
-Implemented protocol fields:
+已实现的协议字段：
 
 ```text
-Preamble(32 bit) | Version(8 bit field, version=1)
+Preamble(32 bit) | Version(8 bit 字段, version=1)
 | Frame ID(16 bit) | Payload Length(16 bit)
 | Payload | CRC-16/XMODEM(16 bit)
 ```
 
-Preamble: `0x6E9797A1`.
+Preamble：`0x6E9797A1`。
 
-Implementations:
+实现位置：
 
 ```text
 src/newtry97/framing.py
 src/protocol_stego/core/framing.py
 ```
 
-See `docs/protocol/protocol-design.md`.
+详见 `docs/protocol/protocol-design.md`。
 
-## Steganography
+## 隐写
 
-Current baseline strategy:
+当前基线策略：
 
 ```text
-bit 0 → ~800 B application-layer write length
-bit 1 → ~1200 B application-layer write length
+比特 0 → 约 800 字节的应用层写入长度
+比特 1 → 约 1200 字节的应用层写入长度
 ```
 
-This modulates application-layer write length, **not** TCP packet length.
+调制的是**应用层写入长度**，不是 TCP 报文长度。
 
-Implementation:
+实现位置：
 
 ```text
 src/protocol_stego/core/modulation.py
@@ -303,11 +299,11 @@ src/protocol_stego/proxy/sender_stego.py
 src/protocol_stego/proxy/receiver_stego.py
 ```
 
-See `docs/steganography/basic-stego.md`.
+详见 `docs/steganography/basic-stego.md`。
 
-## Experiments
+## 实验结果
 
-Existing experiment results:
+已有实验报告：
 
 - `docs/experiments/data-quality-report.md`
 - `docs/experiments/baseline-analysis.md`
@@ -316,25 +312,24 @@ Existing experiment results:
 - `docs/experiments/cwgan-results.md`
 - `docs/experiments/dataset-scaleup-20260926.md`
 
-Current dataset quality verdict: `READY_FOR_CNN`.
+当前数据质量结论：`READY_FOR_CNN`。
 
-The current Normal data is mostly 1024 B writes, while Stego is 800/1200 B.
-Therefore a CNN run mainly tests detection of the 800/1200 modulation
-signature, not general steganography detection.
+但要注意：当前 Normal 数据基本都是 1024 字节写入，而 Stego 是 800/1200
+字节。因此 CNN 实验实际上测的是「有没有 800/1200 这个调制签名」，
+而不是「一般意义上的隐写可检测性」。
 
 ## 1D-CNN
 
-The independent 1D-CNN delivery is in:
+独立的 1D-CNN 交付物位于：
 
 ```text
 src/1dcnn/
 ```
 
-It contains the CNN model, training/evaluation code, a frozen inference
-interface for GAN/external windows, Logistic Regression and rule baselines,
-a trained checkpoint, and result reports.
+其中包含 CNN 模型、训练与评估脚本、面向 GAN / 外部窗口的冻结推理接口、
+逻辑回归与规则基线、已训练权重以及结果报告。
 
-Run:
+运行方式：
 
 ```bash
 cd src/1dcnn
@@ -343,65 +338,62 @@ python evaluate.py
 python -m unittest discover -s tests -v
 ```
 
-Important: this module currently uses a **separate 168-window dataset**
-(`window=128`, `step=64`) with no session index. It has no exact window
-overlap with the 138-window dataset in `datasets/protocol_stego/`.
-Therefore:
+重要提示：该模块目前使用的是一套**独立的 168 窗口数据集**
+（`window=128`，`step=64`），且没有 session 索引。它与
+`datasets/protocol_stego/` 的 1398 窗口数据集**没有任何精确重叠**。
+因此：
 
-- do not merge the two datasets silently;
-- do not claim cross-session generalization from the current 1D-CNN metrics.
+- 不要把两套数据集静默合并；
+- 不要用当前 1D-CNN 指标声称跨 session 泛化能力。
 
-Current reported test results:
+当前报告的结果：
 
 ```text
-CNN:  accuracy=0.9200, F1=0.9375, ROC-AUC=0.9867
-LR:   accuracy=0.8800, F1=0.8889, ROC-AUC=1.0000
-Rule: accuracy=0.8800, F1=0.8889
+CNN：  accuracy=0.9200，F1=0.9375，ROC-AUC=0.9867
+LR：   accuracy=0.8800，F1=0.8889，ROC-AUC=1.0000
+规则： accuracy=0.8800，F1=0.8889
 ```
 
-See `docs/experiments/1dcnn-results.md`.
+详见 `docs/experiments/1dcnn-results.md`。
 
-## cGAN (cWGAN-GP)
+## cGAN（cWGAN-GP）
 
-Module:
+模块位置：
 
 ```text
 src/cWGAN-GP/cWGAN-GP.py
 src/cWGAN-GP/README_cWGAN.md
 ```
 
-It implements a conditional WGAN-GP whose generator emits only the
-application-layer **length channel** `[B, 128]`, projected onto two
-non-overlapping length bands (`BIT0_RANGE = (-1.5, -0.5)`,
-`BIT1_RANGE = (0.5, 1.5)` for a standardized length channel). Proxy-B can then
-recover the bit with a single threshold.
+它实现了一个条件 WGAN-GP，生成器只输出应用层**长度通道** `[B, 128]`，
+并投影到两个互不重叠的长度区间（对标准化后的长度通道使用
+`BIT0_RANGE = (-1.5, -0.5)`、`BIT1_RANGE = (0.5, 1.5)`），
+Proxy-B 只需一个阈值即可判定比特。
 
-Current state: **code only, no result.**
+当前状态：**只有代码，没有任何结果。**
 
-- the module requires at least **1000 training windows**;
-- the current `datasets/protocol_stego/` train split has **114** windows
-  (23 + 23 sessions in total), and both losses diverge at that size;
-- the default `--data-dir` expects `real_train_X.npy` / `real_train_y.npy`
-  directly under `datasets/protocol_stego/`, but the repository ships
-  `processed/windows.npz`;
-- the length band constants assume a standardized length channel, while the
-  protocol dataset stores raw byte lengths.
+- 模块要求至少 **1000 个训练窗口**；
+- 数据集已于 2026-09-26 扩容，train split 现有 **1122 个窗口**，
+  数据量门槛已经满足；
+- 但默认的 `--data-dir` 需要 `datasets/protocol_stego/` 下的
+  `real_train_X.npy` / `real_train_y.npy`，仓库里实际只有
+  `processed/windows.npz`；
+- 长度区间常量假定长度通道已标准化，而协议数据集里存的是原始字节数。
 
-There is no checkpoint, no generated data and no GAN-Stego evaluation yet.
-See `docs/experiments/cwgan-results.md`.
+目前没有 checkpoint、没有生成数据、也没有 GAN-Stego 评估结果。
+详见 `docs/experiments/cwgan-results.md`。
 
-## Team Development Notes
+## 团队开发约定
 
-Read `TEAM_GUIDE.md` before changing anything.
+修改任何内容前请先阅读 `TEAM_GUIDE.md`。
 
-Do not modify without explicit agreement:
+未经明确同意，不要修改：
 
-- AES-256-GCM implementation;
-- existing protocol field layout;
-- Docker network topology;
-- existing raw datasets;
-- 800/1200 baseline modulation.
+- AES-256-GCM 实现；
+- 现有协议字段布局；
+- Docker 网络拓扑；
+- 已有原始数据集；
+- 800/1200 基线调制。
 
-New experiments should be added under `docs/experiments/` and
-`src/protocol_stego/` (or a new clearly named subproject), not by rewriting
-the current results.
+新的实验请放到 `docs/experiments/` 与 `src/protocol_stego/`（或新建一个
+命名清晰、独立的子项目），不要在已有结果上覆盖重写。

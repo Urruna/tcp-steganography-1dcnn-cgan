@@ -1,18 +1,18 @@
 # tcp_lab
 
-Original Docker 4-container TCP echo chain.
+最早的 Docker 四容器 TCP echo 链。
 
 ```text
 client → proxy_a:9001 → proxy_b:9002 → server:9003
 ```
 
-- `client.py`: sends `hello network`
-- `proxy.py`: transparent TCP relay with CSV event logging
-- `echo_server.py`: byte echo server
-- `batch_client.py`: earlier batch traffic generator
-- `docker-compose.yml`: 4-service Docker chain
+- `client.py`：发送 `hello network`
+- `proxy.py`：透明 TCP 中继，并把事件记录成 CSV
+- `echo_server.py`：字节回显服务器
+- `batch_client.py`：更早的批量流量生成器
+- `docker-compose.yml`：四服务 Docker 链
 
-Run:
+运行：
 
 ```bash
 docker compose up

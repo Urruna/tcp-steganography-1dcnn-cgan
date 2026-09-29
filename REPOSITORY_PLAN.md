@@ -1,8 +1,8 @@
-# REPOSITORY_PLAN
+# 仓库规划
 
-> Execution update: Phase 1 organization has been performed. The working
-> protocol_stego dataset was moved to `datasets/protocol_stego/`; the
-> container mount target remains `/work/protocol_stego/dataset`.
+> 执行情况更新：第一阶段的仓库整理已经完成。工作用的 protocol_stego
+> 数据集已移动到 `datasets/protocol_stego/`；容器挂载目标仍然是
+> `/work/protocol_stego/dataset`。
 
 本文件只做 GitHub 仓库规划，**不执行任何移动、删除、重构或代码修改**。
 
@@ -46,7 +46,7 @@ Windows: D:\C\work_DC\
 
 ---
 
-# 1. Repository Structure
+# 1. 仓库结构
 
 建议仓库名（示例）：`authorized-tcp-stego-lab`。
 

@@ -1,13 +1,13 @@
-# Basic Steganography
+# 基础隐写
 
-## Current Baseline Strategy
+## 当前基线策略
 
 ```text
-bit 0 → target 800 B application-layer write
-bit 1 → target 1200 B application-layer write
+比特 0 → 目标 800 字节的应用层写入
+比特 1 → 目标 1200 字节的应用层写入
 ```
 
-Configuration: `src/protocol_stego/config.yaml`
+配置：`src/protocol_stego/config.yaml`
 
 ```yaml
 stego:
@@ -17,23 +17,23 @@ stego:
   block_gap_ms: 5
 ```
 
-Allowed ranges:
+允许范围：
 
 ```text
-LOW:  720–880 B
-HIGH: 1120–1280 B
+LOW： 720–880 字节
+HIGH：1120–1280 字节
 ```
 
-## Data Flow
+## 数据流
 
 ```text
-secret data
+秘密数据
  → AES-256-GCM
- → ciphertext
- → Frame encode
- → bitstream
- → bit
- → choose target write length
+ → 密文
+ → 帧编码
+ → 比特流
+ → 比特
+ → 选择目标写入长度
  → Proxy-A sendall()
 ```
 
@@ -41,27 +41,27 @@ secret data
 
 `src/protocol_stego/proxy/sender_stego.py`
 
-For each bit:
+对每个比特：
 
-1. `bit_to_target_length()`;
-2. read exactly target bytes from the cover stream;
-3. `upstream.sendall(block)`;
-4. log `target_length`, `actual_write_length`, `bit`, `frame_id`.
+1. `bit_to_target_length()`；
+2. 从 cover 流中精确读取目标字节数；
+3. `upstream.sendall(block)`；
+4. 记录 `target_length`、`actual_write_length`、`bit`、`frame_id`。
 
 ## Proxy-B
 
 `src/protocol_stego/proxy/receiver_stego.py`
 
-1. `_read_modulated_block()` accumulates recv bytes;
-2. `length_to_bit()` recovers bit;
-3. bitstream → bytes;
-4. frame decode + CRC;
-5. reassembly;
-6. AES-GCM decrypt.
+1. `_read_modulated_block()` 累积接收字节；
+2. `length_to_bit()` 恢复比特；
+3. 比特流 → 字节；
+4. 帧解码 + CRC；
+5. 重组；
+6. AES-GCM 解密。
 
-## Logs
+## 日志
 
-JSONL:
+JSONL：
 
 ```text
 sender.jsonl
@@ -69,32 +69,34 @@ receiver.jsonl
 errors.jsonl
 ```
 
-## Actual Validation
+## 实际验证结果
 
-From 23 Stego sessions:
+基于 233 个 Stego session：
 
-| Item | Value |
+| 项目 | 数值 |
 | --- | ---: |
-| target 800 / 1200 | 5654 / 4834 |
-| bit 0 / 1 | 5654 / 4834 |
-| observed 800 / 1200 | 5654 / 4834 |
+| target 800 / 1200 | 57780 / 48468 |
+| bit 0 / 1 | 57780 / 48468 |
+| observed 800 / 1200 | 57780 / 48468 |
 | actual == target | 1.0 |
 | actual == observed | 1.0 |
 | BER | 0.0 |
-| frame error rate | 0.0 |
-| CRC failure rate | 0.0 |
+| 帧错误率 | 0.0 |
+| CRC 失败率 | 0.0 |
 
-## Important Boundary
+（最初的 23 个 Stego session 上，上述计数为 5654 / 4834，结论相同。）
 
-The code controls **application-layer write length**.
+## 重要边界
 
-It does not directly control TCP packet length; TCP segmentation or
-coalescing may change what the receiver observes.
+代码控制的是**应用层写入长度**。
 
-## Limitations
+它并不直接控制 TCP 报文长度；TCP 的分段或合并会改变接收端实际观测到的
+数据块大小。
 
-- block-boundary assumption;
-- no FEC;
-- no retransmission;
-- fixed 800/1200 lengths are easy to detect;
-- current Normal data is mostly 1024 B, so the task is comparatively easy.
+## 局限
+
+- 依赖块边界假设；
+- 没有 FEC；
+- 没有重传；
+- 固定 800/1200 两个长度极易被检测；
+- 当前 Normal 数据几乎全是 1024 字节，因此任务相对容易。

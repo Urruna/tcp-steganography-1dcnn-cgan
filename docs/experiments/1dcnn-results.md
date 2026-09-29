@@ -1,60 +1,58 @@
-# 1D-CNN Results
+# 1D-CNN 实验结果
 
-## Module Location
+## 模块位置
 
 ```text
 src/1dcnn/
 ```
 
-The module contains:
+模块包含：
 
-- two-layer 1D-CNN (`cnn_model.py`);
-- training/evaluation pipeline (`train.py`, `evaluate.py`, `run_all.py`);
-- frozen inference interface (`detector.py`, `gan_interface.py`);
-- Logistic Regression and 800/1200 rule baselines;
-- trained checkpoint (`models/best_model.pt`);
-- result reports and plots (`results/`);
-- pipeline tests (`tests/test_pipeline.py`).
+- 两层 1D-CNN（`cnn_model.py`）；
+- 训练 / 评估流程（`train.py`、`evaluate.py`、`run_all.py`）；
+- 冻结的推理接口（`detector.py`、`gan_interface.py`）；
+- 逻辑回归与 800/1200 规则基线；
+- 已训练权重（`models/best_model.pt`）；
+- 结果报告与图表（`results/`）；
+- 流程测试（`tests/test_pipeline.py`）。
 
-## Data Used By This Module
+## 本模块使用的数据
 
-The module ships its own dataset:
+模块自带一套数据集：
 
 ```text
 data/real_{train,val,test}_{X,y}.npy
 data/scaler_params.npz
 ```
 
-Shapes and labels:
+规模与标签：
 
-| Split | Samples | Normal | Stego |
+| 划分 | 样本数 | Normal | Stego |
 | --- | ---: | ---: | ---: |
 | train | 117 | 32 | 85 |
 | val | 26 | 6 | 20 |
 | test | 25 | 10 | 15 |
 
-Input form:
+输入形式：
 
 ```text
 X = [N, 4, 128]
-features = direction, write_len, interval, cum_bytes
-labels = 0 Normal, 1 Baseline-Stego
+特征 = direction, write_len, interval, cum_bytes
+标签 = 0 Normal，1 Baseline-Stego
 ```
 
-The dataset summary says the window configuration is `window=128`,
-`step=64`. It has **no session index**.
+数据集说明中记录的窗口配置是 `window=128`、`step=64`，并且**没有
+session 索引**。
 
-## Relation To The Repository Dataset
+## 与仓库数据集的关系
 
-The repository's current `datasets/protocol_stego/processed/windows.npz`
-contains 138 windows (`window=128`, non-overlapping) with balanced labels
-(69 Normal / 69 Stego).
+仓库当前的 `datasets/protocol_stego/processed/windows.npz` 含 1398 个窗口
+（`window=128`，互不重叠），类别均衡（699 Normal / 699 Stego）。
 
-The 1D-CNN module's 168 windows have **zero exact overlap** with those 138
-windows. They must be treated as a separate dataset until their generation
-and session mapping are confirmed.
+1D-CNN 模块的 168 个窗口与这 1398 个窗口**精确重叠为 0**。在确认它们的
+生成方式和到 session 的映射之前，必须把它们当作一套独立数据。
 
-## Model
+## 模型
 
 ```text
 Conv1d(4, 32, kernel=5, padding=2)
@@ -65,86 +63,83 @@ Conv1d(4, 32, kernel=5, padding=2)
 → Linear(64, 2)
 ```
 
-Training configuration:
+训练配置：
 
-| Item | Value |
+| 项目 | 取值 |
 | --- | --- |
-| Seed | 42 |
-| Epochs | 100 |
-| Batch size | 32 |
-| Learning rate | 0.001 |
-| Weight decay | 0.0001 |
+| 随机种子 | 42 |
+| 轮数 | 100 |
+| batch size | 32 |
+| 学习率 | 0.001 |
+| weight decay | 0.0001 |
 | Dropout | 0.3 |
-| Class weighting | enabled |
-| Threshold | 0.5, fixed before training |
-| Device | CPU |
+| 类别加权 | 开启 |
+| 判定阈值 | 0.5，训练前固定 |
+| 设备 | CPU |
 
-Training did not read the test split.
+训练过程没有读取测试集。
 
-## Reported Test Results
+## 已报告的测试结果
 
-| Model | Accuracy | Precision | Recall | F1 | ROC-AUC | TN/FP/FN/TP |
+| 模型 | Accuracy | Precision | Recall | F1 | ROC-AUC | TN/FP/FN/TP |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | CNN | 0.9200 | 0.8824 | 1.0000 | 0.9375 | 0.9867 | 8/2/0/15 |
-| Logistic Regression | 0.8800 | 1.0000 | 0.8000 | 0.8889 | 1.0000 | 10/0/3/12 |
+| 逻辑回归 | 0.8800 | 1.0000 | 0.8000 | 0.8889 | 1.0000 | 10/0/3/12 |
 | Rule8001200 | 0.8800 | 1.0000 | 0.8000 | 0.8889 | — | 10/0/3/12 |
 
-Recorded software tests:
+已记录的软件测试：
 
 ```text
 6 tests OK
 ```
 
-## How To Run
+## 运行方式
 
 ```bash
 cd src/1dcnn
 python -m pip install -r requirements.txt
 
-# evaluate the saved model
+# 评估已保存的模型
 python evaluate.py
 
-# run pipeline/interface tests
+# 运行流程 / 接口测试
 python -m unittest discover -s tests -v
 
-# retrain from scratch (overwrites models/ and results/)
+# 从头重新训练（会覆盖 models/ 与 results/）
 python run_all.py
 ```
 
-Use a copy of the directory if the delivered result files must be preserved.
+如果需要保留已交付的结果文件，请先复制一份目录再重训。
 
-## Known Limitations
+## 已知局限
 
-1. **Session isolation is not verified.**  
-   `results/data_check.json` explicitly records
-   `session_split_verified: false`; no window-to-session mapping was
-   provided.
+1. **session 隔离未经验证。**
+   `results/data_check.json` 明确记录 `session_split_verified: false`，
+   且没有提供窗口到 session 的映射。
 
-2. **Different dataset from `datasets/protocol_stego`.**  
-   The module uses 168 overlapping-like windows (`step=64`), while the
-   repository dataset has 138 non-overlapping windows. Exact overlap is zero.
+2. **与 `datasets/protocol_stego` 不是同一套数据。**
+   本模块用的是 168 个 `step=64`（近似重叠）的窗口，仓库数据集用的是
+   1398 个互不重叠的窗口，精确重叠为 0。
 
-3. **Small test set.**  
-   Only 25 test windows; one window corresponds to 4 percentage points of
-   accuracy.
+3. **测试集太小。**
+   测试集只有 25 个窗口，多对一个就相当于准确率变化 4 个百分点。
 
-4. **Class imbalance.**  
-   The module dataset is imbalanced (for example, train 32 Normal / 85
-   Stego).
+4. **类别不均衡。**
+   模块数据集不均衡（例如 train 为 32 Normal / 85 Stego）。
 
-5. **No GAN-Stego data.**  
-   The GAN interface exists, but no real GAN-generated windows have been
-   evaluated. Do not present interface demo results as GAN results.
+5. **没有 GAN-Stego 数据。**
+   GAN 接口存在，但没有评估过任何真实 GAN 生成的窗口。不要把接口演示
+   结果当作 GAN 结果。
 
-6. **Application-layer features only.**  
-   Results are not direct packet-capture or real-network detection results.
+6. **只有应用层特征。**
+   这些结果不是抓包层面、也不是真实网络环境下的检测结果。
 
-## Recommended Next Step
+## 建议的下一步
 
-Before using this model as a formal cross-session detector:
+在把这个模型当作正式的跨 session 检测器之前：
 
-1. obtain the generation script and session IDs for the 168-window dataset;
-2. re-split train/val/test by session;
-3. regenerate the scaler on the training split only;
-4. retrain and record the new metrics;
-5. keep the current results as preliminary only.
+1. 拿到 168 窗口数据集的生成脚本与 session ID；
+2. 按 session 重新划分 train/val/test；
+3. 只在训练集上重新拟合 scaler；
+4. 重新训练并记录新的指标；
+5. 现有结果仅作为「流程跑通」的初步结果保留。

@@ -1,19 +1,15 @@
-# LICENSE / Usage
+# 授权与使用说明
 
-This package is intended for the authorized, closed laboratory experiment
-described by the project documentation.
+本发布包用于项目文档中描述的、经过授权的封闭实验室实验。
 
-Usage rules:
+使用规则：
 
-- Use only in the authorized experimental environment.
-- Do not use this package against third-party systems or production networks.
-- Do not attempt to use the data or protocol implementation for unauthorized
-  communication.
-- Historical and current protocol data are for research reproducibility and
-  detector evaluation.
-- No real user secrets, passwords, API keys, or personal data are included.
-- Secret payloads used in current experiments were synthetic and generated
-  deterministically for the experiment.
+- 只能在授权的实验环境中使用。
+- 不得用于针对第三方系统或生产网络的攻击。
+- 不得把数据或协议实现用于未授权的通信。
+- 历史数据与当前协议数据用于科研复现和检测器评估。
+- 包内不含任何真实用户密钥、口令、API key 或个人信息。
+- 当前实验使用的秘密载荷都是为实验确定性地生成的合成数据。
 
-If this package is shared, keep the directory separation between
-`historical_normal` and `protocol_stego`.
+如果分发本发布包，请保持 `historical_normal` 与 `protocol_stego`
+两个目录的分离。

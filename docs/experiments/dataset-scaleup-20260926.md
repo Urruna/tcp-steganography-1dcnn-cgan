@@ -1,26 +1,26 @@
-# Dataset Scale-Up (2026-09-26)
+# 数据集扩容记录（2026-09-26）
 
-## Purpose
+## 目的
 
-Raise `datasets/protocol_stego/` to the volume `src/cWGAN-GP/` requires
-(at least 1000 training windows) **without changing** the protocol, the
-800/1200 modulation, the session parameters or the Docker definitions.
+把 `datasets/protocol_stego/` 扩到 `src/cWGAN-GP/` 要求的规模
+（至少 1000 个训练窗口），同时**不改变**协议、800/1200 调制、
+session 参数和 Docker 定义。
 
-The previous dataset had 23 Normal + 23 Stego sessions and 138 windows.
+扩容前数据集为 23 个 Normal + 23 个 Stego session、138 个窗口。
 
-## Environment
+## 环境
 
-| Item | Value |
+| 项目 | 取值 |
 | --- | --- |
-| Host | Ubuntu6.21 VMware guest, user `urruna` |
-| Project path | `/home/urruna/docker/tcp-lab/protocol_stego` |
-| Collection runtime | system Python 3.8.10, numpy 1.24.4, PyYAML 5.3.1 |
-| Pipeline runtime | project image `protocol-stego:1` via Docker Compose 2.27.1 |
+| 宿主机 | Ubuntu6.21 虚拟机，用户 `urruna` |
+| 项目路径 | `/home/urruna/docker/tcp-lab/protocol_stego` |
+| 采集运行环境 | 系统 Python 3.8.10、numpy 1.24.4、PyYAML 5.3.1 |
+| 管线运行环境 | 项目镜像 `protocol-stego:1`，通过 Docker Compose 2.27.1 |
 
-## Commands
+## 执行命令
 
-Collection. Two workers ran in parallel, one per mode, so that the
-`_next_index()` scan cannot hand the same session index to two processes:
+采集。两个进程并行运行，各自负责一种 mode，这样 `_next_index()`
+的目录扫描不会把同一个 session 序号分配给两个进程：
 
 ```bash
 python3 -m scripts.run_experiment --mode normal --normal 210 \
@@ -30,17 +30,17 @@ python3 -m scripts.run_experiment --mode stego --stego 210 \
   --seed 42 --secret-size 16 --block-gap-ms 20 --window-size 128
 ```
 
-All parameters match the original 23 + 23 sessions (`seed=42`,
-`secret_size=16`, `block_gap_ms=20`, `window_size=128`), so old and new
-sessions are directly comparable.
+所有参数都与最初的 23 + 23 个 session 一致（`seed=42`、
+`secret_size=16`、`block_gap_ms=20`、`window_size=128`），因此新旧 session
+可以直接比较。
 
-> Invocation note: the entry point must be run as a module
-> (`python3 -m scripts.run_experiment`). Running it as a file
-> (`python3 scripts/run_experiment.py`) fails with
-> `ModuleNotFoundError: No module named 'scripts'` because Python puts
-> `scripts/` rather than the project root on `sys.path`.
+> 调用方式注意：必须用模块方式运行
+> （`python3 -m scripts.run_experiment`）。用文件方式运行
+> （`python3 scripts/run_experiment.py`）会报
+> `ModuleNotFoundError: No module named 'scripts'`，
+> 因为 Python 放进 `sys.path` 的是 `scripts/` 而不是项目根目录。
 
-Post-processing, exactly the sequence documented in the repository README:
+后处理，顺序与仓库 README 中记录的一致：
 
 ```bash
 docker compose run --rm tests python -m scripts.dataset_builder --window-size 128
@@ -51,98 +51,93 @@ docker compose run --rm tests python -m scripts.data_quality_report
 docker compose run --rm tests python -m scripts.baseline_analysis
 ```
 
-## Result
+## 结果
 
-| Item | Before | After |
+| 项目 | 扩容前 | 扩容后 |
 | --- | ---: | ---: |
-| Normal sessions | 23 | 233 |
-| Stego sessions | 23 | 233 |
-| Failed sessions in `raw/` | 0 | 0 |
-| Events (both classes) | 20 746 | 210 165 |
-| Windows | 138 | 1 398 |
-| Normal / Stego windows | 69 / 69 | 699 / 699 |
-| X shape | `[138, 4, 128]` | `[1398, 4, 128]` |
-| Sessions in train / val / test | 38 / 4 / 4 | 374 / 46 / 46 |
-| Windows in train / val / test | 114 / 12 / 12 | 1122 / 138 / 138 |
+| Normal session | 23 | 233 |
+| Stego session | 23 | 233 |
+| `raw/` 中失败的 session | 0 | 0 |
+| 事件总数（两类合计） | 20 746 | 210 165 |
+| 窗口数 | 138 | 1 398 |
+| Normal / Stego 窗口 | 69 / 69 | 699 / 699 |
+| X 形状 | `[138, 4, 128]` | `[1398, 4, 128]` |
+| train / val / test（session） | 38 / 4 / 4 | 374 / 46 / 46 |
+| train / val / test（窗口） | 114 / 12 / 12 | 1122 / 138 / 138 |
 
-The training split now holds **1122 windows**, which clears the
-`>= 1000` figure the cWGAN-GP module documents.
+训练集现在有 **1122 个窗口**，已经越过 cWGAN-GP 模块文档中的
+`>= 1000` 门槛。
 
-## Failed sessions and how they were handled
+## 失败的 session 与处理方式
 
-Seven of the first 210 Stego sessions and one of the replacements failed with
-the already-documented error:
+最初的 210 个 Stego session 中有 7 个失败，补采的 7 个中又有 1 个失败，
+报的都是此前已记录过的错误：
 
 ```text
 length_out_of_range: length 1600 / 2000 outside LOW(720, 880) / HIGH(1120, 1280)
 ```
 
-Root cause: the receiver occasionally coalesces two consecutive proxy writes
-into one observed read, so a pair of 800/1200 writes is observed as
-1600/2000. The 20 ms `block_gap_ms` normally prevents this, so the error is a
-timing race rather than a protocol defect. The failure rate was roughly 3%.
+根因：接收端偶尔会把两次连续的代理写入合并成一次读取，于是 800/1200
+两个写入被观测成 1600/2000。正常情况下 20 ms 的 `block_gap_ms` 可以
+避免这种情况，所以这是时序竞争，而不是协议缺陷。失败率约为 3%。
 
-Handling:
+处理方式：
 
-1. the failed session directories were moved out of
-   `dataset/raw/stego/` into `protocol_stego/raw_failed/stego/`
-   (they are **not deleted**, but the dataset builder only scans
-   `raw/normal` and `raw/stego`, so they cannot leak into the dataset);
-2. fresh sessions were collected until 233 of 233 Stego sessions reported
-   `success: true`.
+1. 把这些失败的 session 目录从 `dataset/raw/stego/` 移到
+   `protocol_stego/raw_failed/stego/`（**没有删除**；
+   数据集构建脚本只扫描 `raw/normal` 与 `raw/stego`，
+   因此它们不会进入数据集）；
+2. 补采新的 session，直到 233 个 Stego session 全部 `success: true`。
 
-Quarantined session ids:
+被隔离的 session id：
 
 ```text
 stego_000108  stego_000112  stego_000159  stego_000168
 stego_000175  stego_000206  stego_000226  stego_000238
 ```
 
-Note the consequence: because replacements were appended, the Stego session
-ids in `raw/stego/` are `000001`-`000237` plus `000239`-`000241` — the ids of
-the quarantined sessions are absent, and the count is still 233. Session ids
-are identifiers, not indices, so this is expected.
+需要注意的后果：由于是追加补采，`raw/stego/` 中的 Stego session id 是
+`000001`–`000237` 加上 `000239`–`000241`，被隔离的 id 缺号，但总数仍是
+233。session id 只是标识符而不是下标，这是正常现象。
 
 ## `run_summary.json`
 
-Both collection workers write `dataset/raw/run_summary.json` at the end of
-their own run, so the file cannot describe a combined run. It was therefore
-rebuilt as an aggregate of every session's `metadata.json` (which is the
-authoritative per-session record), preserving the original JSON schema and
-adding a `note` field that states this. No session record was modified.
+两个采集进程都会在各自结束时写 `dataset/raw/run_summary.json`，
+所以这个文件无法描述一次合并后的运行。因此改为按每个 session 的
+`metadata.json`（真正权威的逐 session 记录）聚合重建，
+保持原有 JSON 结构不变，并额外增加一个 `note` 字段说明这一点。
+没有修改任何 session 记录。
 
-## Verified data quality
+## 已核实的数据质量
 
-From the regenerated `DATA_QUALITY_REPORT.md`:
+来自重新生成的 `DATA_QUALITY_REPORT.md`：
 
-| Check | Result |
+| 检查项 | 结果 |
 | --- | --- |
-| Normal sessions | 233, all `success: true` |
-| Stego sessions | 233, all `success: true` |
-| X / y shape | `[1398, 4, 128]` / `[1398]`, float32 / int64 |
+| Normal session | 233，全部 `success: true` |
+| Stego session | 233，全部 `success: true` |
+| X / y 形状 | `[1398, 4, 128]` / `[1398]`，float32 / int64 |
 | NaN / Inf | 0 / 0 |
-| train ∩ val, train ∩ test, val ∩ test | empty |
-| duplicate samples | 0 |
+| train ∩ val、train ∩ test、val ∩ test | 均为空 |
+| 重复样本 | 0 |
 | BER | 0.0 |
-| frame error rate | 0.0 |
-| CRC failure rate | 0.0 |
-| Stego target / actual / observed counts | 800: 57780, 1200: 48468 for all three; 0 observed values outside 800/1200 |
-| Comparability (Normal vs Stego mean) | duration ratio 1.015, event-count ratio 1.022, total-bytes ratio 1.018 |
+| 帧错误率 | 0.0 |
+| CRC 失败率 | 0.0 |
+| Stego 的 target / actual / observed 计数 | 800: 57780，1200: 48468，三者完全一致；越界的观测值 0 个 |
+| 可比性（Normal 与 Stego 均值之比） | 时长 1.015、事件数 1.022、总字节数 1.018 |
 
-Overall verdict from the report: **READY_FOR_CNN**.
+报告给出的总体结论是：**READY_FOR_CNN**。
 
-## Limitations recorded by this run
+## 本次运行记录的局限
 
-1. **Normal traffic is still a fixed 1024 B write.** Feature statistics show
-   Normal `length` identical to 1024 for every event, while Stego is exactly
-   800/1200. Any detector trained on this pair therefore learns the
-   800/1200 signature, not "is there a covert channel". The report repeats
-   this and it must be repeated in any paper or slide that quotes the CNN
-   metrics.
-2. **The `direction` channel is constant 1** for both classes in the current
-   window extraction (only forward-direction events are used), so it carries
-   no information for the detector.
-3. `dataset/processed/data_quality_report.json` is now ~199 MB and remains
-   excluded by `.gitignore`.
-4. `releases/dataset_release_v1/` still describes the previous 46-session
-   snapshot and was **not** regenerated by this run.
+1. **Normal 流量仍是固定 1024 字节写入。** 特征统计显示 Normal 的
+   `length` 每个事件都恰好是 1024，而 Stego 恰好是 800/1200。
+   因此在这个数据对上训练的检测器学到的是 800/1200 签名，
+   而不是「是否存在隐蔽信道」。报告中也重复了这一点，
+   任何引用 CNN 指标的论文或汇报都必须一并说明。
+2. **`direction` 通道在两个类别上都恒为 1**（当前窗口提取只用正向事件），
+   对检测器没有任何信息量。
+3. `dataset/processed/data_quality_report.json` 现在约 199 MB，
+   仍被 `.gitignore` 排除在外。
+4. `releases/dataset_release_v1/` 仍描述扩容前 46 个 session 的快照，
+   本次**没有**重新生成。

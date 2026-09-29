@@ -1,67 +1,64 @@
-# Project Overview
+# 项目总体说明
 
-## Research Goal
+## 研究目标
 
-Study TCP traffic feature modulation in an authorized proxy-forwarding
-environment, together with reliable secret delivery and detectability
-evaluation.
+在授权的代理转发环境中研究 TCP 流量特征调制，同时评估秘密数据的可靠交付
+与可检测性。
 
-The long-term plan in `docs/planning/new_727.md` includes:
+`docs/planning/new_727.md` 中的长期规划包含：
 
-- Normal traffic;
-- Baseline-Stego traffic;
-- GAN-Stego traffic;
-- 1D-CNN detector;
-- cGAN feature optimizer.
+- Normal 流量；
+- Baseline-Stego 流量；
+- GAN-Stego 流量；
+- 1D-CNN 检测器；
+- cGAN 特征优化器。
 
-## Two Engineering Lines
+## 两条工程主线
 
-### Communication line
+### 通信线
 
 ```text
 Client → Proxy-A → Proxy-B → Server
 ```
 
-Goal: normal business traffic must keep working while Proxy-A modulates only
-allowed application-layer write behavior.
+目标：正常业务流量必须照常工作，Proxy-A 只调制被允许的应用层写入行为。
 
-### Analysis line
+### 分析线
 
 ```text
-logs / datasets
+日志 / 数据集
         ↓
-fixed event windows
+固定长度的滑动窗口
         ↓
-rule-based / traditional ML baseline
+规则 / 传统机器学习基线
         ↓
-1D-CNN (planned)
+1D-CNN（已实现，初步）
         ↓
-cGAN / GAN-Stego (planned)
+cGAN / GAN-Stego（规划中）
 ```
 
-## Implemented Reality
+## 当前实际已完成
 
-Implemented now:
+已经实现：
 
-- Docker TCP chains;
-- AES-256-GCM;
-- frame + CRC + bitstream + reassembly;
-- 800/1200 application-layer write-length stego;
-- raw dataset and fixed-window processed dataset;
-- rule-based and Logistic Regression baselines.
-- a 1D-CNN module with a trained checkpoint and result files, but on a
-  separate 168-window dataset whose session split is unverified
-  (`src/1dcnn/`);
-- a conditional WGAN-GP module for length-strategy generation, with no
-  completed training run yet (`src/cWGAN-GP/`).
+- Docker TCP 链；
+- AES-256-GCM；
+- 帧 + CRC + 比特流 + 重组；
+- 800/1200 应用层写入长度隐写；
+- 原始数据集与固定窗口的处理后数据集；
+- 规则基线与逻辑回归基线；
+- 一个带已训练权重与结果文件的 1D-CNN 模块，但它使用的是一套独立的
+  168 窗口数据，session 划分未经验证（`src/1dcnn/`）；
+- 一个用于生成长度策略的条件 WGAN-GP 模块，但尚未跑通训练
+  （`src/cWGAN-GP/`）。
 
-Not implemented now:
+尚未实现：
 
-- GAN-Stego;
-- FEC / retransmission;
-- pcap-based feature extraction.
+- GAN-Stego；
+- FEC / 重传；
+- 基于 pcap 的特征提取。
 
-## Evidence
+## 证据来源
 
 - `PROJECT_AUDIT.md`
 - `PROJECT_STATUS.md`

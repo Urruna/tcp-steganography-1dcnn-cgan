@@ -1,6 +1,6 @@
-# BASELINE ANALYSIS
+# 基线分析
 
-Verdict: **READY_FOR_CNN**
+结论：**READY_FOR_CNN**
 
 ## 1 数据稳定性
 

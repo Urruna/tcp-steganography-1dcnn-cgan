@@ -1,48 +1,48 @@
-# TEAM GUIDE
+# 团队协作指南
 
-## Get the project
+## 获取项目
 
 ```bash
 git clone <repository-url>
 cd <repository>
 ```
 
-Read first:
+建议先读：
 
 1. `README.md`
 2. `PROJECT_STATUS.md`
 3. `docs/architecture/network-topology.md`
 4. `TEAM_GUIDE.md`
 
-## Docker requirements
+## Docker 环境要求
 
 - Docker 26.x
 - Docker Compose v2
-- Python 3.11 containers
-- Network access for image pulls (registry mirror may be required)
+- 容器内 Python 3.11
+- 拉取镜像需要网络（可能需要配置镜像加速）
 
-## Run the base chain
+## 运行基础链路
 
 ```bash
 cd src/tcp_lab
 docker compose up
 ```
 
-Expected:
+预期输出：
 
 ```text
 [client] received: hello network
 [client] PASS: returned payload matches sent payload
 ```
 
-## Run the normal file-transfer chain
+## 运行正常文件下载链
 
 ```bash
 cd src/normal_file_transfer
 docker compose up --abort-on-container-exit --exit-code-from client
 ```
 
-## Run protocol_stego tests
+## 运行 protocol_stego 测试
 
 ```bash
 cd src/protocol_stego
@@ -50,69 +50,67 @@ docker compose build
 docker compose run --rm tests python -m unittest discover -s tests -v
 ```
 
-Expected: 20 tests OK.
+预期：20 个测试全部通过。
 
-## Run the end-to-end demo
+## 运行端到端演示
 
 ```bash
 cd src/protocol_stego
 docker compose run --rm tests python examples/demo_secret_transfer.py
 ```
 
-Expected: `PASS=True`, BER=0, CRC failures=0.
+预期：`PASS=True`，BER=0，CRC 失败=0。
 
-## Where things are
+## 各部分在哪里
 
-| Topic | Location |
+| 内容 | 位置 |
 | --- | --- |
-| Base Docker chain | `src/tcp_lab/` |
-| Normal file-transfer chain | `src/normal_file_transfer/` |
+| 基础 Docker 链 | `src/tcp_lab/` |
+| 正常文件下载链 | `src/normal_file_transfer/` |
 | AES-256-GCM | `src/crypto/crypto.py` |
-| Frame protocol | `src/protocol_stego/core/framing.py`, `src/newtry97/framing.py` |
-| Basic stego | `src/protocol_stego/core/modulation.py`, `src/protocol_stego/proxy/` |
-| Current dataset | `datasets/protocol_stego/` |
-| 1D-CNN module | `src/1dcnn/` |
-| cWGAN-GP module | `src/cWGAN-GP/` |
-| Released dataset | `releases/dataset_release_v1/` |
-| Experiment reports | `docs/experiments/` |
-| Planning documents | `docs/planning/` |
+| 帧协议 | `src/protocol_stego/core/framing.py`、`src/newtry97/framing.py` |
+| 基础隐写 | `src/protocol_stego/core/modulation.py`、`src/protocol_stego/proxy/` |
+| 当前数据集 | `datasets/protocol_stego/` |
+| 1D-CNN 模块 | `src/1dcnn/` |
+| cWGAN-GP 模块 | `src/cWGAN-GP/` |
+| 数据集发布包 | `releases/dataset_release_v1/` |
+| 实验报告 | `docs/experiments/` |
+| 规划文档 | `docs/planning/` |
 
-## Do not modify without explicit agreement
+## 未经明确同意不要修改
 
-- AES-256-GCM implementation;
-- frame field layout and CRC definition;
-- Docker network topology and port mapping;
-- 800/1200 baseline modulation;
-- raw experiment data (`dataset/raw/**`, historical CSV files);
-- released dataset contents.
-- the trained 1D-CNN checkpoint/results under `src/1dcnn/` unless the
-  experiment is explicitly rerun and re-recorded.
+- AES-256-GCM 实现；
+- 帧字段布局与 CRC 定义；
+- Docker 网络拓扑与端口映射；
+- 800/1200 基线调制；
+- 原始实验数据（`dataset/raw/**`、历史 CSV 文件）；
+- 数据集发布包内容；
+- `src/1dcnn/` 中已训练的 checkpoint 与结果，除非明确重跑并重新记录。
 
-If a bug is found:
+如果发现 bug：
 
-1. write down the exact symptom and evidence;
-2. do not silently rewrite results;
-3. create a separate branch/experiment;
-4. record the change in `CHANGELOG.md`.
+1. 先写清具体现象与证据；
+2. 不要悄悄改写已有结果；
+3. 新建独立分支或独立实验；
+4. 在 `CHANGELOG.md` 中记录改动。
 
-## Where to add new work
+## 新工作应该放在哪里
 
-- New experiment report: `docs/experiments/`
-- New dataset release: `releases/`
-- New code experiment: a new subdirectory under `src/`
-- New analysis script: `src/protocol_stego/scripts/`
-- New notebook or temporary exploration: not committed; use `scratch/`
-  (ignored by Git)
+- 新实验报告：`docs/experiments/`
+- 新数据集发布：`releases/`
+- 新代码实验：`src/` 下新建子目录
+- 新分析脚本：`src/protocol_stego/scripts/`
+- 临时笔记或探索：不要提交，放在 `scratch/`（已被 Git 忽略）
 
-## How to submit new experiment results
+## 如何提交新的实验结果
 
-1. Keep raw logs unchanged.
-2. Add a short Markdown report with:
-   - purpose;
-   - command;
-   - environment;
-   - sample count;
-   - metrics;
-   - known limitations.
-3. Put large `.npz` / `.npy` / `.zip` files in Git LFS or a Release.
-4. Never commit keys, tokens, passwords, or private credentials.
+1. 原始日志保持原样，不要改动。
+2. 附一份简短的 Markdown 报告，包含：
+   - 目的；
+   - 执行的命令；
+   - 环境；
+   - 样本数量；
+   - 指标；
+   - 已知局限。
+3. 大的 `.npz` / `.npy` / `.zip` 文件走 Git LFS 或 Release。
+4. 绝对不要提交密钥、token、口令或私有凭证。

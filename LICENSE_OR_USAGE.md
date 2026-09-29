@@ -1,14 +1,13 @@
-# LICENSE / Usage
+# 授权与使用说明
 
-This repository is an authorized laboratory research project.
+本仓库是一个经过授权的实验室研究项目。
 
-Usage rules:
+使用规则：
 
-- Use only in the closed, authorized experimental environment.
-- Do not use the code or data against third-party or production systems.
-- Do not use it for unauthorized data exfiltration or covert communication.
-- Keep the separation between historical normal data and current
-  protocol_stego data.
-- No real user secrets are included; experiment secrets were synthetic.
+- 只允许在封闭、授权的实验环境中使用。
+- 不得用于针对第三方系统或生产系统的攻击。
+- 不得用于未授权的数据窃取或隐蔽通信。
+- 保持历史 normal 数据与当前 protocol_stego 数据之间的边界，不要混用。
+- 仓库内不包含任何真实用户密钥；实验中的秘密数据均为合成数据。
 
-Redistribution and reuse must follow the project supervisor's authorization.
+再分发与复用必须遵循项目指导教师的授权。

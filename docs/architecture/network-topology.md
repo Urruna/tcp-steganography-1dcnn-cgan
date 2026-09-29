@@ -1,21 +1,21 @@
-# Network Topology
+# 网络拓扑
 
-## Base Docker TCP Chain
+## 基础 Docker TCP 链
 
-Location: `src/tcp_lab/`
+位置：`src/tcp_lab/`
 
 ```text
 client → proxy_a:9001 → proxy_b:9002 → server:9003
 ```
 
-| Container | Listens | Upstream | Role |
+| 容器 | 监听端口 | 上游 | 角色 |
 | --- | ---: | --- | --- |
-| `client` | – | `proxy_a:9001` | sends `hello network` |
-| `proxy_a` | 9001 | `proxy_b:9002` | transparent TCP relay |
-| `proxy_b` | 9002 | `server:9003` | transparent TCP relay |
-| `server` | 9003 | – | echo server |
+| `client` | – | `proxy_a:9001` | 发送 `hello network` |
+| `proxy_a` | 9001 | `proxy_b:9002` | 透明 TCP 中继 |
+| `proxy_b` | 9002 | `server:9003` | 透明 TCP 中继 |
+| `server` | 9003 | – | echo 服务器 |
 
-Networks (all `internal: true`):
+网络（均为 `internal: true`）：
 
 ```text
 client_net
@@ -23,21 +23,21 @@ backbone_net
 server_net
 ```
 
-Client behavior: `src/tcp_lab/client.py`
-Proxy behavior: `src/tcp_lab/proxy.py`
-Server behavior: `src/tcp_lab/echo_server.py`
+客户端行为：`src/tcp_lab/client.py`
+代理行为：`src/tcp_lab/proxy.py`
+服务端行为：`src/tcp_lab/echo_server.py`
 
-## Normal File-Transfer Chain
+## 正常文件下载链
 
-Location: `src/normal_file_transfer/`
+位置：`src/normal_file_transfer/`
 
-Same port convention:
+端口约定与基础链相同：
 
 ```text
 client → proxy_a:9001 → proxy_b:9002 → server:9003
 ```
 
-Server provides:
+服务端提供：
 
 ```text
 report_small.txt   64 KiB
@@ -45,38 +45,37 @@ report_medium.txt  256 KiB
 report_large.bin   1 MiB
 ```
 
-Client performs 8 downloads and validates SHA-256.
+客户端执行 8 次下载并用 SHA-256 校验。
 
-## protocol_stego Experiment
+## protocol_stego 实验
 
-Location: `src/protocol_stego/`
+位置：`src/protocol_stego/`
 
-The compose file defines one service:
+compose 文件只定义了一个服务：
 
 ```text
 tests
 ```
 
-Four-node flow is simulated by threads:
+四节点流程由线程在进程内模拟：
 
 ```text
 client → proxy_a:9101 → proxy_b:9102 → server:9103
 ```
 
-Code:
+相关代码：
 
 - `examples/demo_secret_transfer.py`
 - `scripts/session_runner.py`
 
-It is **not** a four-container Docker network in the current implementation.
+在当前实现中，它**不是**四容器 Docker 网络。
 
-## newtry97 Container Demo
+## newtry97 容器演示
 
-Location: `src/newtry97/`
+位置：`src/newtry97/`
 
 ```text
 newtry97-917: client → proxy_a → proxy_b → server
 ```
 
-This is a separate v0.2 protocol + write-splitting experiment, not the
-800/1200 baseline strategy.
+这是另一条独立的 v0.2 协议 + 写拆分实验，不是 800/1200 基线策略。
