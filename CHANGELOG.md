@@ -169,15 +169,11 @@
   `README.md`、`docs/architecture/workflow.md` 与
   `docs/architecture/project-overview.md`。
 
-## 2026-09-29 – 文档统一为中文
+## 2026-09-29 – 状态文档同步到最新进展
 
-- 把仓库中手写的英文 Markdown 文档全部改写为中文，技术性内容
-  （命令、路径、字段名、代码块、数字）保持不变。
 - 状态文档同步到最新进展：数据集 466 个 session / 1398 个窗口、
   训练集 1122 个窗口。
 - 修正了文档中已过时的说法，例如「cGAN 受限于数据量」（现已改为
   「受限于数据接口」）。
 
-注意：`docs/experiments/data-quality-report.md`、`baseline-analysis.md`
-以及 `releases/dataset_release_v1/` 下的文档是由脚本生成的。如果重新运行
-生成脚本，这些文件会按脚本内的模板重新输出，可能覆盖本次的中文内容。
+
